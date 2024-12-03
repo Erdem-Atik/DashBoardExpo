@@ -13,7 +13,10 @@ export default function ClientLayout() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>WELCOME To The DASHBOARD</Text>
+        <Text 
+        style={styles.title}
+        onPress={() => router.push("/dashboard")}
+        >WELCOME To The DASHBOARD</Text>
         <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
           <Ionicons name="log-out-outline" size={20} color="red" />
           <Text style={styles.signOutText}>Sign Out</Text>

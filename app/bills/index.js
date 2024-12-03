@@ -1,25 +1,12 @@
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function Dashboard() {
+export default function Bilss() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>CLIENTS</Text>
-      <Button
-        title="Client 1 Screen"
-        onPress={() => router.push('/dashboard/client1')}
-      />
-      <Button
-        title="Client 2 Screen"
-        onPress={() => router.push('/dashboard/client2')}
-      />
-      <View style={styles.signOutContainer}>
-      <Text style={styles.title}
-        onPress={() => router.push("/bills")}
-      >Bills</Text>
-      </View>
+      <Text style={styles.title}>Bills</Text>
     </View>
   );
 }

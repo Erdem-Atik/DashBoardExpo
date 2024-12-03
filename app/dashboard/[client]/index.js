@@ -5,10 +5,12 @@ export default function Client1() {
   const router = useRouter();
   const { client } = useLocalSearchParams(); // Get the 'client' parameter
 
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{client || 'Not Provided'} Screen</Text>
+      <Text style={styles.title}>{client || 'Not Provided'} Screens</Text>
       <Text style={styles.subtitle}>Client: {client || 'Not Provided'}</Text>
+
       <Button
         title="Go Back"
         onPress={() => router.push('/dashboard')}

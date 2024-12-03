@@ -21,12 +21,15 @@ export default  mainlayout = ()=>{
         // provider bu seviyeden veriliyor ama burdan verilince tüm herşey bu contexte erişebiliyor
         <View  >
         <View style={styles.container}>
-            <Text style={{fontSize:24}}>MANAGMENT PANEL</Text>
+            <Text style={{fontSize:24}}
+             onPress={() => router.push("/login")}            
+            >MANAGMENT PANEL</Text>
             </View>
         <Slot />
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
