@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   signOutContainer: {
-    marginTop: 30, // Adds spacing to separate from other buttons
+    marginTop: 1, // Adds spacing to separate from other buttons
     width: '80%', // Makes the button stretch a bit horizontally
     alignSelf: 'center', // Centers the button properly
   },
