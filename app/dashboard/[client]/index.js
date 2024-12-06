@@ -1,25 +1,26 @@
+import React, { useContext } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { AppContext } from "../../../context/AppContext";
 
-export default function Dashboard() {
+export default function Client1() {
   const router = useRouter();
+  const { client } = useLocalSearchParams(); // Get the 'client' parameter
+  console.log(client);
+  const { user, buildings } = useContext(AppContext);
+  console.log(buildings);
+
+  const res = buildings.find((bul) => bul.id === client);
+  console.log(res);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>RES</Text>
-      <Button
-        title="Ahmet apt 1 Screen"
-        onPress={() => router.push("/dashboard/client1")}
-      />
-      <Button
-        title="Mehmet Apt  Screen"
-        onPress={() => router.push("/dashboard/client2")}
-      />
-      <Button
-        title="Client 3 Screen"
-        onPress={() => router.push("/dashboard/client3")}
-      />
-      <View style={styles.signOutContainer}></View>
+      <Text style={styles.title}>{client || "Not Provided"} Informations:</Text>
+      <Text style={styles.subtitle}>Client: {client || "Not Provided"}</Text>
+      <Text style={styles.subtitle}>Resident Name: {res.name}</Text>
+      <Text style={styles.subtitle}>Resident Address: {res.address}</Text>
+      <Text style={styles.subtitle}>Resident Number:{res.flats}</Text>
+      <Button title="Go Back" onPress={() => router.push("/dashboard")} />
     </View>
   );
 }
@@ -29,16 +30,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 16,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 10,
   },
-  signOutContainer: {
-    marginTop: 30, // Adds spacing to separate from other buttons
-    width: "80%", // Makes the button stretch a bit horizontally
-    alignSelf: "center", // Centers the button properly
+  subtitle: {
+    fontSize: 18,
+    color: "gray",
+    marginBottom: 20,
   },
 });

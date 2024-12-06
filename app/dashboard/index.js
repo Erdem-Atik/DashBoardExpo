@@ -10,7 +10,8 @@ export default function Dashboard() {
     <Button
       key={building.id}
       title={building.name}
-      onPress={() => router.push(`/dashboard/client1`)}
+      style={styles.button}
+      onPress={() => router.push(`/dashboard/${building.id}`)}
     />
   ));
 
@@ -24,21 +25,6 @@ export default function Dashboard() {
   );
 }
 
-{
-  /* <Button
-title="Ahmet apt 1 Screen"
-onPress={() => router.push("/dashboard/client1")}
-/> */
-}
-
-{
-  /* <Button
-key={building.id}
-title={building.name}
-onPress={() => router.push(`/dashboard/${building.id}`)}
-/> */
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -47,9 +33,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  button: {
+    marginBottom: 10,
   },
   signOutContainer: {
     marginTop: 30, // Adds spacing to separate from other buttons

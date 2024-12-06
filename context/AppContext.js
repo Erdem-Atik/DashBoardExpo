@@ -11,7 +11,7 @@ export const AppProvider = ({ children }) => {
 
   const [buildings, setBuildings] = useState([
     {
-      id: 1,
+      id: "client1",
       name: "Sunrise Apartments",
       address: "123 Main Street",
       flats: 10,
@@ -26,7 +26,7 @@ export const AppProvider = ({ children }) => {
       ],
     },
     {
-      id: 2,
+      id: "client2",
       name: "Green Valley",
       address: "456 Park Avenue",
       flats: 15,
@@ -41,7 +41,7 @@ export const AppProvider = ({ children }) => {
       ],
     },
     {
-      id: 3,
+      id: "client3",
       name: "Ocean View Towers",
       address: "789 Coastal Road",
       flats: 20,
