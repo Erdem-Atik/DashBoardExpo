@@ -8,11 +8,11 @@ export default function Dashboard() {
     <View style={styles.container}>
       <Text style={styles.title}>RES</Text>
       <Button
-        title="Client 1 Screen"
+        title="Ahmet apt 1 Screen"
         onPress={() => router.push("/dashboard/client1")}
       />
       <Button
-        title="Client 2 Screen"
+        title="Mehmet Apt  Screen"
         onPress={() => router.push("/dashboard/client2")}
       />
       <Button
