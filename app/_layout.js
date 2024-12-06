@@ -2,6 +2,7 @@ import { Slot, useRouter } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import Footer from "../components/Footer";
 import BrandHeader from "../components/Brandheader";
+import { AppProvider } from "../context/AppContext";
 
 import { useEffect } from "react";
 
@@ -14,13 +15,15 @@ export default mainlayout = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <BrandHeader />
-      <View style={styles.content}>
-        <Slot />
+    <AppProvider>
+      <View style={styles.container}>
+        <BrandHeader />
+        <View style={styles.content}>
+          <Slot />
+        </View>
+        <Footer />
       </View>
-      <Footer />
-    </View>
+    </AppProvider>
   );
 };
 

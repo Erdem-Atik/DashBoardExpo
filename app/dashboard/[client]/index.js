@@ -1,25 +1,25 @@
 import { View, Text, Button, StyleSheet } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter } from "expo-router";
 
-const residents = [
-  { id: "client1", resName: "AHMET Apt", resNumber: 15 },
-  { id: "client2", resName: "KÖŞK Apt", resNumber: 20 },
-  { id: "client3", resName: "ZİNNUR Apt.", resNumber: 30 },
-];
-
-export default function Client1() {
+export default function Dashboard() {
   const router = useRouter();
-  const { client } = useLocalSearchParams(); // Get the 'client' parameter
-
-  const res = residents.find((res) => res.id === client);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{client || "Not Provided"} Informations:</Text>
-      <Text style={styles.subtitle}>Client: {client || "Not Provided"}</Text>
-      <Text style={styles.subtitle}>Resident Name: {res.resName}</Text>
-      <Text style={styles.subtitle}>Resident Number:{res.resNumber}</Text>
-      <Button title="Go Back" onPress={() => router.push("/dashboard")} />
+      <Text style={styles.title}>RES</Text>
+      <Button
+        title="Ahmet apt 1 Screen"
+        onPress={() => router.push("/dashboard/client1")}
+      />
+      <Button
+        title="Mehmet Apt  Screen"
+        onPress={() => router.push("/dashboard/client2")}
+      />
+      <Button
+        title="Client 3 Screen"
+        onPress={() => router.push("/dashboard/client3")}
+      />
+      <View style={styles.signOutContainer}></View>
     </View>
   );
 }
@@ -29,15 +29,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 16,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: "gray",
     marginBottom: 20,
+  },
+  signOutContainer: {
+    marginTop: 30, // Adds spacing to separate from other buttons
+    width: "80%", // Makes the button stretch a bit horizontally
+    alignSelf: "center", // Centers the button properly
   },
 });

@@ -1,27 +1,42 @@
 import { View, Text, Button, StyleSheet } from "react-native";
+import React, { useContext } from "react";
 import { useRouter } from "expo-router";
+import { AppContext } from "../../context/AppContext";
 
 export default function Dashboard() {
+  const { user, buildings } = useContext(AppContext);
   const router = useRouter();
+  const buttonList = buildings.map((building) => (
+    <Button
+      key={building.id}
+      title={building.name}
+      onPress={() => router.push(`/dashboard/client1`)}
+    />
+  ));
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>RES</Text>
-      <Button
-        title="Ahmet apt 1 Screen"
-        onPress={() => router.push("/dashboard/client1")}
-      />
-      <Button
-        title="Mehmet Apt  Screen"
-        onPress={() => router.push("/dashboard/client2")}
-      />
-      <Button
-        title="Client 3 Screen"
-        onPress={() => router.push("/dashboard/client3")}
-      />
+      <Text style={styles.title}>RESIDENTS</Text>
+      <li>{buttonList}</li>
+
       <View style={styles.signOutContainer}></View>
     </View>
   );
+}
+
+{
+  /* <Button
+title="Ahmet apt 1 Screen"
+onPress={() => router.push("/dashboard/client1")}
+/> */
+}
+
+{
+  /* <Button
+key={building.id}
+title={building.name}
+onPress={() => router.push(`/dashboard/${building.id}`)}
+/> */
 }
 
 const styles = StyleSheet.create({
