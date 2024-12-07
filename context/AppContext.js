@@ -1,4 +1,7 @@
 import React, { createContext, useState } from "react";
+import { login as loginRequest } from "../api/auth"; // Import the login function
+
+console.log(loginRequest);
 
 export const AppContext = createContext();
 
