@@ -1,27 +1,30 @@
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { useRouter } from "expo-router";
+import { useState, useContext } from "react";
+import { AppContext } from "../../context/AppContext";
 
 export default function Login() {
   const router = useRouter();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { login, error } = useContext(AppContext); // Access login function
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    if (username && password) {
-      router.push('/dashboard'); // Navigate to the dashboard screen
-    } else {
-      Alert.alert('Error', 'Please enter both username and password.');
+  const handleLogin = async () => {
+    try {
+      await login(username, password);
+      router.push("/dashboard"); // Navigate to dashboard on success
+    } catch (err) {
+      console.error("Login failed:", err.message); // Handle errors
     }
   };
 
   const handleSignUp = () => {
-    router.push('/login/register'); // Navigate to the register screen
+    router.push("/login/register"); // Navigate to the register screen
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>PLEASE LOGIN</Text>
+      <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -35,36 +38,36 @@ export default function Login() {
         value={password}
         onChangeText={setPassword}
       />
+      {error && <Text style={styles.error}>{error}</Text>}
       <Button title="Login" onPress={handleLogin} />
-      <Text style={styles.orText}>OR</Text>
-      <Button title="Sign Up" onPress={handleSignUp} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
+    justifyContent: "center",
     padding: 16,
+    backgroundColor: "#f9f9f9",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+    textAlign: "center",
   },
   input: {
-    width: '80%',
-    padding: 10,
+    height: 40,
+    borderColor: "#ccc",
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    marginBottom: 15,
+    marginBottom: 12,
+    paddingHorizontal: 8,
+    borderRadius: 4,
   },
-  orText: {
-    marginVertical: 10,
-    fontSize: 16,
-    color: '#888',
+  error: {
+    color: "red",
+    marginBottom: 12,
+    textAlign: "center",
   },
 });
