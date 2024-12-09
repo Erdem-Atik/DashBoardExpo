@@ -4,17 +4,8 @@ import { login as loginRequest } from "../api/auth"; // Import the login functio
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  // const [user, setUser] = useState({
-  //   username: "manager1",
-  //   password: "password123",
-  //   loggedIn: false,
-  // });
-
   const [user, setUser] = useState(null); // User data
   const [error, setError] = useState(null); // Error handling (optional)
-
-  //   user: "aqa.com"
-  //   password:"pass"
 
   const login = async (username, password) => {
     try {
