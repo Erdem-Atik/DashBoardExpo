@@ -6,7 +6,6 @@ import { AppContext } from "../../../context/AppContext";
 export default function Client1() {
   const router = useRouter();
   const { client } = useLocalSearchParams(); // Get the 'client' parameter
-  console.log(client);
   const { user, buildings } = useContext(AppContext);
   console.log(buildings);
 

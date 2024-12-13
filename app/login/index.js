@@ -2,6 +2,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { useState, useContext } from "react";
 import { AppContext } from "../../context/AppContext";
+import * as SecureStore from "expo-secure-store";
 
 export default function Login() {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       await login(username, password);
-      router.push("/dashboard"); // Navigate to dashboard on success
+      router.push("/dashboard"); // Navigate to dashboard
     } catch (err) {
       console.error("Login failed:", err.message); // Handle errors
     }

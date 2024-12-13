@@ -10,7 +10,6 @@ export const AppProvider = ({ children }) => {
   const login = async (username, password) => {
     try {
       const userData = await loginRequest(username, password);
-      console.log(userData);
       setUser(userData); // Save user data
       setError(null); // Clear errors
     } catch (err) {
