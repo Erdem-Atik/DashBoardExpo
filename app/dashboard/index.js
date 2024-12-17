@@ -60,8 +60,6 @@ export default function Dashboard() {
     }
   }, [user?.token]);
 
-  // getValueFor("token");
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome, {user?.username || "Guest"}!</Text>
