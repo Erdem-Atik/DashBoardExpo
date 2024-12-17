@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import { login as loginRequest } from "../api/auth"; // Import the login function
+import { createProject, getProjects } from "../api/projects";
 
 export const AppContext = createContext();
 

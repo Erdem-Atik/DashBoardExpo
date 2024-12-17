@@ -4,6 +4,7 @@ import { AppContext } from "../../context/AppContext";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Cookies from "js-cookie";
+import { createProject, getProjects } from "../../api/projects";
 
 const GetCookie = () => {
   alert(Cookies.get("my-key"));
@@ -11,8 +12,6 @@ const GetCookie = () => {
 
 export default function Dashboard() {
   const { user } = useContext(AppContext);
-  // const [token, setToken] = useState("");
-  // const [error, setError] = useState(null);
 
   console.log(user?.token || "No Token Available");
 
@@ -28,8 +27,20 @@ export default function Dashboard() {
           // saving error
         }
       };
-      if (user?.token) storeData(user.token); // save tg
-      else return;
+      if (user?.token) {
+        storeData(user.token); // save tg
+        const newProject = {
+          name: "Örnek Proje",
+          description: "erdem 1.1.1",
+          startDate: "2024-01-01",
+          endDate: "2024-12-31",
+        };
+        const createResult = createProject(user.token, newProject);
+        console.log("Proje oluşturma sonucu:", createResult);
+
+        const projects = getProjects(user.token);
+        console.log("Proje listesi:", projects);
+      } else return;
     } else {
       async function save(key, value) {
         await SecureStore.setItemAsync(key, value);
@@ -56,7 +67,6 @@ export default function Dashboard() {
       <Text style={styles.title}>Welcome, {user?.username || "Guest"}!</Text>
       {/* <Text>Your token: {user?.token || "No Token Available"}</Text> */}
       <button onClick={GetCookie}>Get Cookie</button>
-
       {/* Display other user-related data */}
     </View>
   );
