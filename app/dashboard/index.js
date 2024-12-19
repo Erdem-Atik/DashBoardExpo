@@ -10,9 +10,6 @@ import {
 import { AppContext } from "../../context/AppContext";
 import Cookies from "js-cookie";
 import { createProject, getProjects } from "../../api/projects";
-import CookieButton from "../../apiComponents/CookieButton";
-import CreateProjectButton from "./CreateProjectButton";
-import ProjectList from "./ProjectList";
 
 export default function Dashboard() {
   const { user } = useContext(AppContext);
