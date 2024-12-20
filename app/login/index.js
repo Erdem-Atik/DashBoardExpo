@@ -13,7 +13,7 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       const { token } = await loginUser(username, password); // Fetch token from API
-      login(token); // Save token and navigate
+      login(token, username); // Save token and navigate
     } catch (err) {
       setError(err.message || "Invalid login credentials");
     }

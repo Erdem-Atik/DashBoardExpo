@@ -7,9 +7,12 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
+  const [username, setUsername] = useState(null);
 
-  const login = async (newToken) => {
+  const login = async (newToken, newUsername) => {
     setToken(newToken);
+    setUsername(newUsername);
+    console.log(username);
     Cookies.set("my-key", newToken);
     router.push("/dashboard"); // Navigate to the dashboard
   };
@@ -29,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, loadToken }}>
+    <AuthContext.Provider value={{ token, username, login, logout, loadToken }}>
       {children}
     </AuthContext.Provider>
   );

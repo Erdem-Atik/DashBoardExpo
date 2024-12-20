@@ -12,7 +12,8 @@ import Cookies from "js-cookie";
 import { createProject, getProjects } from "../../api/projects";
 
 export default function Dashboard() {
-  const { token } = useAuth();
+  const { token, username } = useAuth();
+  console.log(username);
   const [projects, setProjects] = useState([]); // State to store the list of projects
 
   // Function to create a project when the button is clicked
@@ -61,7 +62,7 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome, "Guest"!</Text>
+      <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
       <Button title="Get Cookie" onPress={GetCookie} />
       <Button title="Create Project" onPress={handleCreateProject} />
       <Button title="Get Projects" onPress={handleGetProjects} />
