@@ -1,16 +1,10 @@
 import React, { useContext } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { AppContext } from "../../../context/AppContext";
 
 export default function Client1() {
   const router = useRouter();
   const { client } = useLocalSearchParams(); // Get the 'client' parameter
-  const { user, buildings } = useContext(AppContext);
-  console.log(buildings);
-
-  const res = buildings.find((bul) => bul.id === client);
-  console.log(res);
 
   return (
     <View style={styles.container}>

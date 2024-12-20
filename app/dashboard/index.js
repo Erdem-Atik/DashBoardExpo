@@ -7,22 +7,20 @@ import {
   Button,
   ScrollView,
 } from "react-native";
-import { AppContext } from "../../context/AppContext";
+import { useAuth } from "../../context/AuthContext";
 import Cookies from "js-cookie";
 import { createProject, getProjects } from "../../api/projects";
 
 export default function Dashboard() {
-  const { user } = useContext(AppContext);
+  const { token } = useAuth();
   const [projects, setProjects] = useState([]); // State to store the list of projects
-
-  console.log(user?.token || "No Token Available");
 
   // Function to create a project when the button is clicked
   const handleCreateProject = async () => {
     if (Platform.OS === "web") {
       console.log("Web Platform");
 
-      if (user?.token) {
+      if (token) {
         const newProject = {
           name: "instance-1",
           description: "erdem 1.1.1",
@@ -31,7 +29,7 @@ export default function Dashboard() {
         };
 
         try {
-          const createResult = await createProject(user.token, newProject);
+          const createResult = await createProject(token, newProject);
           console.log("Project creation result:", createResult);
         } catch (error) {
           console.error("Error creating project:", error);
@@ -44,9 +42,9 @@ export default function Dashboard() {
 
   // Function to fetch and display the list of projects
   const handleGetProjects = async () => {
-    if (user?.token) {
+    if (token) {
       try {
-        const fetchedProjects = await getProjects(user.token);
+        const fetchedProjects = await getProjects(token);
         console.log("Fetched projects:", fetchedProjects);
         setProjects(fetchedProjects); // Update the state with the fetched projects
       } catch (error) {
@@ -63,7 +61,7 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome, {user?.username || "Guest"}!</Text>
+      <Text style={styles.title}>Welcome, "Guest"!</Text>
       <Button title="Get Cookie" onPress={GetCookie} />
       <Button title="Create Project" onPress={handleCreateProject} />
       <Button title="Get Projects" onPress={handleGetProjects} />

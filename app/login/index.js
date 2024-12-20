@@ -1,26 +1,22 @@
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
-import { useRouter } from "expo-router";
-import { useState, useContext } from "react";
-import { AppContext } from "../../context/AppContext";
-import * as SecureStore from "expo-secure-store";
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { loginUser } from "../../api/auth";
+import Cookies from "js-cookie";
 
-export default function Login() {
-  const router = useRouter();
-  const { login, error } = useContext(AppContext); // Access login function
+const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const { login } = useAuth();
 
   const handleLogin = async () => {
     try {
-      await login(username, password);
-      router.push("/dashboard"); // Navigate to dashboard
+      const { token } = await loginUser(username, password); // Fetch token from API
+      login(token); // Save token and navigate
     } catch (err) {
-      console.error("Login failed:", err.message); // Handle errors
+      setError(err.message || "Invalid login credentials");
     }
-  };
-
-  const handleSignUp = () => {
-    router.push("/login/register"); // Navigate to the register screen
   };
 
   return (
@@ -43,7 +39,7 @@ export default function Login() {
       <Button title="Login" onPress={handleLogin} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -72,3 +68,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+export default LoginScreen;

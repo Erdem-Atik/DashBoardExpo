@@ -2,11 +2,10 @@ import { Slot, useRouter } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import Footer from "../components/Footer";
 import BrandHeader from "../components/Brandheader";
-import { AppProvider } from "../context/AppContext";
-
+import { AuthProvider } from "../context/AuthContext";
 import { useEffect } from "react";
 
-export default mainlayout = () => {
+const Mainlayout = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -15,7 +14,7 @@ export default mainlayout = () => {
   }, []);
 
   return (
-    <AppProvider>
+    <AuthProvider>
       <View style={styles.container}>
         <BrandHeader />
         <View style={styles.content}>
@@ -23,7 +22,7 @@ export default mainlayout = () => {
         </View>
         <Footer />
       </View>
-    </AppProvider>
+    </AuthProvider>
   );
 };
 
@@ -35,3 +34,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default Mainlayout;

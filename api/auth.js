@@ -1,6 +1,5 @@
 // /api/auth.js
-
-export async function login(username, password) {
+export async function loginUser(username, password) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
