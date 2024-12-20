@@ -32,3 +32,25 @@ export async function loginUser(username, password) {
     throw error;
   }
 }
+
+export async function getValidateToken(token) {
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(BASE_URL, requestOptions);
+    const result = await response.json();
+    if (response.success) {
+      return true;
+    }
+  } catch (error) {
+    console.error("Projeleri alma hatası:", error);
+    throw error;
+  }
+}

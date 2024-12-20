@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
   const login = async (newToken, newUsername) => {
     setToken(newToken);
     setUsername(newUsername);
-    console.log(username);
     Cookies.set("my-key", newToken);
     router.push("/dashboard"); // Navigate to the dashboard
   };
@@ -40,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  console.log("AuthContext value:", context); // Debug
+  // console.log("AuthContext value:", context); // Debug
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }

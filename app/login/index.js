@@ -1,14 +1,31 @@
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { loginUser } from "../../api/auth";
-import Cookies from "js-cookie";
+import { loginUser, getValidateToken } from "../../api/auth";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { login } = useAuth();
+  const { login, loadToken } = useAuth();
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const token = await loadToken(); // Ensure loadToken is defined in context
+        if (token) {
+          const isValid = await getValidateToken(token);
+          if (isValid) {
+            return; // Already routed in loadToken
+          }
+        }
+      } catch (err) {
+        console.error("Token validation error:", err);
+      }
+    };
+
+    checkToken();
+  }, [loadToken]);
 
   const handleLogin = async () => {
     try {

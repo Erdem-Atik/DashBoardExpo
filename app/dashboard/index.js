@@ -13,41 +13,33 @@ import { createProject, getProjects } from "../../api/projects";
 
 export default function Dashboard() {
   const { token, username } = useAuth();
-  console.log(username);
-  const [projects, setProjects] = useState([]); // State to store the list of projects
+  const [projects, setProjects] = useState([]);
 
-  // Function to create a project when the button is clicked
   const handleCreateProject = async () => {
-    if (Platform.OS === "web") {
-      console.log("Web Platform");
+    if (Platform.OS === "web" && token) {
+      const newProject = {
+        name: "instance-1",
+        description: "erdem 1.1.1",
+        startDate: "2024-01-01",
+        endDate: "2024-12-31",
+      };
 
-      if (token) {
-        const newProject = {
-          name: "instance-1",
-          description: "erdem 1.1.1",
-          startDate: "2024-01-01",
-          endDate: "2024-12-31",
-        };
-
-        try {
-          const createResult = await createProject(token, newProject);
-          console.log("Project creation result:", createResult);
-        } catch (error) {
-          console.error("Error creating project:", error);
-        }
-      } else {
-        console.warn("No token available to create a project");
+      try {
+        const createResult = await createProject(token, newProject);
+        console.log("Project creation result:", createResult);
+      } catch (error) {
+        console.error("Error creating project:", error);
       }
+    } else {
+      console.warn("No token available to create a project");
     }
   };
 
-  // Function to fetch and display the list of projects
   const handleGetProjects = async () => {
     if (token) {
       try {
         const fetchedProjects = await getProjects(token);
-        console.log("Fetched projects:", fetchedProjects);
-        setProjects(fetchedProjects); // Update the state with the fetched projects
+        setProjects(fetchedProjects);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
@@ -62,11 +54,12 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
-      <Button title="Get Cookie" onPress={GetCookie} />
-      <Button title="Create Project" onPress={handleCreateProject} />
-      <Button title="Get Projects" onPress={handleGetProjects} />
-
+      <View style={styles.sidebar}>
+        <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
+        <Button title="Get Cookie" onPress={GetCookie} />
+        <Button title="Create Project" onPress={handleCreateProject} />
+        <Button title="Get Projects" onPress={handleGetProjects} />
+      </View>
       <ScrollView style={styles.projectList}>
         {projects.length > 0 ? (
           projects.map((project, index) => (
@@ -88,19 +81,22 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: "row", // Arrange sidebar and project list horizontally
     backgroundColor: "#f9f9f9",
+  },
+  sidebar: {
+    width: 200, // Fixed width for the sidebar
     padding: 20,
+    backgroundColor: "#f0f0f0",
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 16,
+    marginBottom: 20,
   },
   projectList: {
-    marginTop: 20,
-    width: "100%",
+    flex: 1, // Take remaining space
+    padding: 20,
   },
   projectItem: {
     backgroundColor: "#e0e0e0",
