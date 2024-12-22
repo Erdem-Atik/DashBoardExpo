@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import Sidebar from "./SideBar";
+import { useProjectContext } from "../../context/ProjectContext";
 
 export default function Dashboard() {
   const { token, username } = useAuth();

@@ -1,7 +1,6 @@
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useState, useEffect, use } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useProjectContext } from "../../context/ProjectContext";
 import { loginUser, getValidateToken } from "../../api/auth";
 
 const LoginScreen = () => {
@@ -9,8 +8,6 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const { login, loadToken } = useAuth();
-  const { removeProject } = useProjectContext();
-  console.log(removeProject);
 
   useEffect(() => {
     const checkToken = async () => {
