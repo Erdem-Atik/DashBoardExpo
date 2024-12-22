@@ -7,7 +7,7 @@ import {
   createProject,
   deleteProject,
   updateProject,
-} from "../../api/projects"; // Ensure correct import
+} from "../../api/projects";
 
 export default function Dashboard() {
   const { token, username } = useAuth();
@@ -103,8 +103,9 @@ const styles = StyleSheet.create({
   },
   sidebar: {
     width: 200,
-    padding: 20,
+    padding: 5,
     backgroundColor: "#f0f0f0",
+    borderRadius: 5,
   },
   title: {
     fontSize: 18,
