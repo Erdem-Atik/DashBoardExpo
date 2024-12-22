@@ -1,6 +1,4 @@
 // /api/auth.js
-const BASE_URL = "https://eliyte-backend.abut.workers.dev/projects";
-
 export async function loginUser(username, password) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -34,6 +32,8 @@ export async function loginUser(username, password) {
     throw error;
   }
 }
+
+const BASE_URL = "https://eliyte-backend.abut.workers.dev/projects";
 
 export async function getValidateToken(token) {
   const myHeaders = new Headers();

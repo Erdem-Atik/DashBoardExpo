@@ -12,6 +12,7 @@ export default function ClientLayout() {
   return (
     <View style={styles.container}>
       {/* Header */}
+
       <View style={styles.header}>
         <Text style={styles.title} onPress={() => router.push("/dashboard")}>
           WELCOME TO THE DASHBOARD
@@ -52,5 +53,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "red",
     marginLeft: 5, // Add some space between the icon and text
+  },
+  brandName: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#007BFF", // or your brand color
+  },
+  tagline: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 4,
+  },
+  footer: {
+    backgroundColor: "#f5f5f5",
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#e0e0e0",
+  },
+  footerText: {
+    color: "#666666",
+    fontSize: 12,
   },
 });
