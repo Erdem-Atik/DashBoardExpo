@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import Footer from "../components/Footer";
 import BrandHeader from "../components/Brandheader";
 import { AuthProvider } from "../context/AuthContext";
+import { ProjectProvider } from "../context/ProjectContext";
 import { useEffect } from "react";
 
 const Mainlayout = () => {
@@ -15,13 +16,15 @@ const Mainlayout = () => {
 
   return (
     <AuthProvider>
-      <View style={styles.container}>
-        <BrandHeader />
-        <View style={styles.content}>
-          <Slot />
+      <ProjectProvider>
+        <View style={styles.container}>
+          <BrandHeader />
+          <View style={styles.content}>
+            <Slot />
+          </View>
+          <Footer />
         </View>
-        <Footer />
-      </View>
+      </ProjectProvider>
     </AuthProvider>
   );
 };

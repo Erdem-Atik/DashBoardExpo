@@ -52,3 +52,62 @@ export async function getProjects(token) {
     throw error;
   }
 }
+
+/**
+ * Proje günceller
+ * @param {string} token - Authorization token
+ * @param {string} projectId - Güncellenecek projenin ID'si
+ * @param {object} updatedData - Güncelleme verileri
+ * @returns {object} API yanıtı
+ */
+export async function updateProject(token, projectId, updatedData) {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "PUT", // Güncelleme için PUT kullanılır
+    headers: myHeaders,
+    body: JSON.stringify(updatedData),
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/${projectId}`, requestOptions);
+    const result = await response.json();
+    return result; // Güncelleme sonucu döner
+  } catch (error) {
+    console.error("Proje güncelleme hatası:", error);
+    throw error;
+  }
+}
+
+/**
+ * Proje siler
+ * @param {string} token - Authorization token
+ * @param {string} projectId - Silinecek projenin ID'si
+ * @returns {object} API yanıtı
+ */
+export async function deleteProject(token, projectId) {
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "DELETE", // Silme için DELETE kullanılır
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/${projectId}`, requestOptions);
+    if (response.ok) {
+      return { success: true }; // Silme işlemi başarılı
+    } else {
+      const error = await response.json();
+      return { success: false, error }; // Hata mesajı döner
+    }
+  } catch (error) {
+    console.error("Proje silme hatası:", error);
+    throw error;
+  }
+}

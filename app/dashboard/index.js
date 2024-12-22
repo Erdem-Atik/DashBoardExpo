@@ -6,59 +6,20 @@ import {
   StyleSheet,
   Button,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext";
-import Cookies from "js-cookie";
-import { createProject, getProjects } from "../../api/projects";
+import Sidebar from "./SideBar";
 
 export default function Dashboard() {
   const { token, username } = useAuth();
   const [projects, setProjects] = useState([]);
 
-  const handleCreateProject = async () => {
-    if (Platform.OS === "web" && token) {
-      const newProject = {
-        name: "instance-1",
-        description: "erdem 1.1.1",
-        startDate: "2024-01-01",
-        endDate: "2024-12-31",
-      };
-
-      try {
-        const createResult = await createProject(token, newProject);
-        console.log("Project creation result:", createResult);
-      } catch (error) {
-        console.error("Error creating project:", error);
-      }
-    } else {
-      console.warn("No token available to create a project");
-    }
-  };
-
-  const handleGetProjects = async () => {
-    if (token) {
-      try {
-        const fetchedProjects = await getProjects(token);
-        setProjects(fetchedProjects);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    } else {
-      console.warn("No token available to fetch projects");
-    }
-  };
-
-  const GetCookie = () => {
-    alert(Cookies.get("my-key"));
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.sidebar}>
         <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
-        <Button title="Get Cookie" onPress={GetCookie} />
-        <Button title="Create Project" onPress={handleCreateProject} />
-        <Button title="Get Projects" onPress={handleGetProjects} />
+        <Sidebar token={token} />
       </View>
       <ScrollView style={styles.projectList}>
         {projects.length > 0 ? (
@@ -88,6 +49,12 @@ const styles = StyleSheet.create({
     width: 200, // Fixed width for the sidebar
     padding: 20,
     backgroundColor: "#f0f0f0",
+  },
+  button: {
+    backgroundColor: "#3498db",
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
   },
   title: {
     fontSize: 18,
