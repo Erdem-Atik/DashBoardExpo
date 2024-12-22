@@ -14,7 +14,7 @@ import { useProjectContext } from "../../context/ProjectContext";
 
 export default function Dashboard() {
   const { token, username } = useAuth();
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState([]); //it can be removed or refactoring after the project context is implemented
 
   return (
     <View style={styles.container}>

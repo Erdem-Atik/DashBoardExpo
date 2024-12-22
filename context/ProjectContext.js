@@ -5,6 +5,7 @@ import {
   updateProject,
   deleteProject,
 } from "../api/projects"; // Adjust the import path as needed
+import { useAuth } from "./AuthContext";
 
 const ProjectContext = createContext();
 

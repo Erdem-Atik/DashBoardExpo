@@ -1,8 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useProjectContext } from "../../context/ProjectContext"; // Adjust path to your context
+import { useAuth } from "../../context/AuthContext"; // Adjust path to your context
 
 export default function Sidebar() {
+  const { token } = useAuth();
   const {
     fetchProjects,
     addProject,
