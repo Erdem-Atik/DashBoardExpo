@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import SideBar from "./SideBar";
 import {
@@ -8,10 +14,12 @@ import {
   deleteProject,
   updateProject,
 } from "../../api/projects";
+import { useRouter } from "expo-router"; // Import useRouter for dynamic navigation
 
 export default function Dashboard() {
   const { token, username } = useAuth();
   const [projects, setProjects] = useState([]);
+  const router = useRouter(); // Initialize router for navigation
 
   // Callback to fetch projects
   const fetchProjects = async () => {
@@ -65,6 +73,11 @@ export default function Dashboard() {
     }
   };
 
+  // Callback to navigate to the project details route
+  const handleNavigateToProject = (projectId) => {
+    router.push(`/dashboard/${projectId}`);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.sidebar}>
@@ -74,18 +87,22 @@ export default function Dashboard() {
           onCreateProject={handleCreateProject}
           onFetchProjects={fetchProjects}
           onDeleteProject={handleDeleteProject}
-          onUpdateProject={handleUpdateProject} // Pass the new update callback
+          onUpdateProject={handleUpdateProject}
         />
       </View>
       <ScrollView style={styles.projectList}>
         {projects.length > 0 ? (
           projects.map((project, index) => (
-            <View key={index} style={styles.projectItem}>
+            <TouchableOpacity
+              key={index}
+              style={styles.projectItem}
+              onPress={() => handleNavigateToProject(project.id)} // Navigate to dynamic route
+            >
               <Text>Project Name: {project.name}</Text>
               <Text>Description: {project.description}</Text>
               <Text>Start Date: {project.startDate}</Text>
               <Text>End Date: {project.endDate}</Text>
-            </View>
+            </TouchableOpacity>
           ))
         ) : (
           <Text>No projects to display.</Text>

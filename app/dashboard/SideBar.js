@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useRouter } from "expo-router"; // Import useRouter for dynamic navigation
 
 export default function SideBar({
   token,
@@ -8,6 +9,12 @@ export default function SideBar({
   onDeleteProject,
   onUpdateProject,
 }) {
+  const router = useRouter(); // Initialize router for navigation
+
+  const navigateToProjectDetails = (projectId) => {
+    router.push(`/dashboard/${projectId}`); // Navigate to dynamic route
+  };
+
   return (
     <View style={styles.sidebar}>
       <Text style={styles.title}>Sidebar</Text>
@@ -47,6 +54,14 @@ export default function SideBar({
         disabled={!token}
       >
         <Text>Update Project</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigateToProjectDetails("sample-project-id")} // Replace with real project ID
+        disabled={!token}
+      >
+        <Text>Go to Project Details</Text>
       </TouchableOpacity>
     </View>
   );

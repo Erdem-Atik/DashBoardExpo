@@ -1,19 +1,15 @@
-import React, { useContext } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 
-export default function Client1() {
-  const router = useRouter();
-  const { client } = useLocalSearchParams(); // Get the 'client' parameter
+export default function ClientDashboard() {
+  const { client } = useLocalSearchParams(); // Extract dynamic route parameter
+  console.log(client);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{client || "Not Provided"} Informations:</Text>
-      <Text style={styles.subtitle}>Client: {client || "Not Provided"}</Text>
-      <Text style={styles.subtitle}>Resident Name: {res.name}</Text>
-      <Text style={styles.subtitle}>Resident Address: {res.address}</Text>
-      <Text style={styles.subtitle}>Resident Number:{res.flats}</Text>
-      <Button title="Go Back" onPress={() => router.push("/dashboard")} />
+      <Text style={styles.title}>Client Dashboard</Text>
+      <Text style={styles.subtitle}>Client ID: {client}</Text>
     </View>
   );
 }
@@ -23,6 +19,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#f9f9f9",
   },
   title: {
     fontSize: 24,
@@ -31,7 +28,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    color: "gray",
-    marginBottom: 20,
+    color: "#555",
   },
 });
