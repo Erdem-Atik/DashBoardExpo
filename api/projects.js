@@ -46,6 +46,7 @@ export async function getProjects(token) {
   try {
     const response = await fetch(BASE_URL, requestOptions);
     const result = await response.json();
+    console.log(result);
     return result.projects || [];
   } catch (error) {
     console.error("Projeleri alma hatası:", error);
@@ -108,6 +109,33 @@ export async function deleteProject(token, projectId) {
     }
   } catch (error) {
     console.error("Proje silme hatası:", error);
+    throw error;
+  }
+}
+
+/**
+ * Proje detaylarını getirir
+ * @param {string} token - Authorization token
+ * @param {string} projectId - Detaylarını alınacak projenin ID'si
+ * @returns {object} Proje detayları
+ */
+export async function getProjectDetails(token, projectId) {
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/${projectId}`, requestOptions);
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error("Proje detayları alma hatası:", error);
     throw error;
   }
 }

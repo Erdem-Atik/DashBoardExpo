@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,66 +14,28 @@ import {
   deleteProject,
   updateProject,
 } from "../../api/projects";
-import { useRouter } from "expo-router"; // Import useRouter for dynamic navigation
+import { useRouter } from "expo-router";
 
 export default function Dashboard() {
   const { token, username } = useAuth();
   const [projects, setProjects] = useState([]);
-  const router = useRouter(); // Initialize router for navigation
+  const router = useRouter();
 
-  // Callback to fetch projects
-  const fetchProjects = async () => {
-    if (!token) return;
-    try {
-      const fetchedProjects = await getProjects(token);
-      setProjects(fetchedProjects);
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-    }
-  };
-
-  // Callback to create a project
-  const handleCreateProject = async () => {
-    if (!token) return;
-    const newProject = {
-      name: "New Project",
-      description: "A description of the new project",
-      startDate: "2024-01-01",
-      endDate: "2024-12-31",
+  // Fetch projects on mount
+  useEffect(() => {
+    const fetchProjects = async () => {
+      if (!token) return;
+      try {
+        const fetchedProjects = await getProjects(token);
+        setProjects(fetchedProjects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
     };
-    try {
-      const result = await createProject(token, newProject);
-      console.log("Project created:", result);
-      fetchProjects();
-    } catch (error) {
-      console.error("Error creating project:", error);
-    }
-  };
+    fetchProjects();
+  }, [token]);
 
-  // Callback to delete a project
-  const handleDeleteProject = async (projectId) => {
-    if (!token) return;
-    try {
-      await deleteProject(token, projectId);
-      fetchProjects();
-    } catch (error) {
-      console.error("Error deleting project:", error);
-    }
-  };
-
-  // Callback to update a project
-  const handleUpdateProject = async (projectId, updatedData) => {
-    if (!token) return;
-    try {
-      const updatedProject = await updateProject(token, projectId, updatedData);
-      console.log("Project updated:", updatedProject);
-      fetchProjects();
-    } catch (error) {
-      console.error("Error updating project:", error);
-    }
-  };
-
-  // Callback to navigate to the project details route
+  // Navigate to project details page
   const handleNavigateToProject = (projectId) => {
     router.push(`/dashboard/${projectId}`);
   };
@@ -84,21 +46,71 @@ export default function Dashboard() {
         <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
         <SideBar
           token={token}
-          onCreateProject={handleCreateProject}
-          onFetchProjects={fetchProjects}
-          onDeleteProject={handleDeleteProject}
-          onUpdateProject={handleUpdateProject}
+          onCreateProject={async () => {
+            if (!token) return;
+            const newProject = {
+              name: "New Project",
+              description: "A description of the new project",
+              startDate: "2024-01-01",
+              endDate: "2024-12-31",
+            };
+            try {
+              const result = await createProject(token, newProject);
+              console.log("Project created:", result);
+              setProjects((prevProjects) => [...prevProjects, result]);
+            } catch (error) {
+              console.error("Error creating project:", error);
+            }
+          }}
+          onFetchProjects={async () => {
+            if (!token) return;
+            try {
+              const fetchedProjects = await getProjects(token);
+              setProjects(fetchedProjects);
+            } catch (error) {
+              console.error("Error fetching projects:", error);
+            }
+          }}
+          onDeleteProject={async (projectId) => {
+            if (!token) return;
+            try {
+              await deleteProject(token, projectId);
+              setProjects((prevProjects) =>
+                prevProjects.filter((project) => project.id !== projectId)
+              );
+            } catch (error) {
+              console.error("Error deleting project:", error);
+            }
+          }}
+          onUpdateProject={async (projectId, updatedData) => {
+            if (!token) return;
+            try {
+              const updatedProject = await updateProject(
+                token,
+                projectId,
+                updatedData
+              );
+              setProjects((prevProjects) =>
+                prevProjects.map((project) =>
+                  project.id === projectId ? updatedProject : project
+                )
+              );
+            } catch (error) {
+              console.error("Error updating project:", error);
+            }
+          }}
         />
       </View>
       <ScrollView style={styles.projectList}>
         {projects.length > 0 ? (
           projects.map((project, index) => (
             <TouchableOpacity
-              key={index}
+              key={project._id || index}
               style={styles.projectItem}
-              onPress={() => handleNavigateToProject(project.id)} // Navigate to dynamic route
+              onPress={() => handleNavigateToProject(project._id)}
             >
               <Text>Project Name: {project.name}</Text>
+              <Text>Project Name: {project._id}</Text>
               <Text>Description: {project.description}</Text>
               <Text>Start Date: {project.startDate}</Text>
               <Text>End Date: {project.endDate}</Text>
