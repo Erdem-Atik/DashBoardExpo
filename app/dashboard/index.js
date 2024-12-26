@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import SideBar from "./SideBar";
+import ProjectList from "./ProjectList";
 import {
   getProjects,
   createProject,
   deleteProject,
   updateProject,
+  searchProjects,
 } from "../../api/projects";
 import { useRouter } from "expo-router";
 
@@ -20,20 +16,6 @@ export default function Dashboard() {
   const { token, username } = useAuth();
   const [projects, setProjects] = useState([]);
   const router = useRouter();
-
-  // Fetch projects on mount
-  useEffect(() => {
-    const fetchProjects = async () => {
-      if (!token) return;
-      try {
-        const fetchedProjects = await getProjects(token);
-        setProjects(fetchedProjects);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-    fetchProjects();
-  }, [token]);
 
   // Navigate to project details page
   const handleNavigateToProject = (projectId) => {
@@ -65,8 +47,9 @@ export default function Dashboard() {
           onFetchProjects={async () => {
             if (!token) return;
             try {
-              const fetchedProjects = await getProjects(token);
-              setProjects(fetchedProjects);
+              const fetchedProjects = await searchProjects();
+              setProjects(fetchedProjects.projects);
+              console.log(projects);
             } catch (error) {
               console.error("Error fetching projects:", error);
             }
@@ -101,25 +84,11 @@ export default function Dashboard() {
           }}
         />
       </View>
-      <ScrollView style={styles.projectList}>
-        {projects.length > 0 ? (
-          projects.map((project, index) => (
-            <TouchableOpacity
-              key={project._id || index}
-              style={styles.projectItem}
-              onPress={() => handleNavigateToProject(project._id)}
-            >
-              <Text>Project Name: {project.name}</Text>
-              <Text>Project Name: {project._id}</Text>
-              <Text>Description: {project.description}</Text>
-              <Text>Start Date: {project.startDate}</Text>
-              <Text>End Date: {project.endDate}</Text>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text>No projects to display.</Text>
-        )}
-      </ScrollView>
+      {/* Use the ProjectList component here */}
+      <ProjectList
+        projects={projects}
+        onNavigateToProject={handleNavigateToProject}
+      />
     </View>
   );
 }
@@ -140,15 +109,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 20,
-  },
-  projectList: {
-    flex: 1,
-    padding: 20,
-  },
-  projectItem: {
-    backgroundColor: "#e0e0e0",
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
   },
 });

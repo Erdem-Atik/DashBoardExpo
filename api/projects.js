@@ -1,4 +1,5 @@
-const BASE_URL = "https://eliyte-backend.abut.workers.dev/projects";
+const BASE_URL = "https://eliyte-backend.abut.workers.dev";
+//const BASE_URL = "https://eliyte-backend.abut.workers.dev/projects";
 
 /**
  * Yeni proje oluşturur
@@ -19,7 +20,7 @@ export async function createProject(token, projectData) {
   };
 
   try {
-    const response = await fetch(BASE_URL, requestOptions);
+    const response = await fetch(`${BASE_URL}/projects`, requestOptions);
     const result = await response.json();
     return result; // Başarılı mı başarısız mı çağıran kodda kontrol edilir
   } catch (error) {
@@ -44,7 +45,7 @@ export async function getProjects(token) {
   };
 
   try {
-    const response = await fetch(BASE_URL, requestOptions);
+    const response = await fetch(`${BASE_URL}/projects`, requestOptions);
     const result = await response.json();
     console.log(result);
     return result.projects || [];
@@ -74,7 +75,10 @@ export async function updateProject(token, projectId, updatedData) {
   };
 
   try {
-    const response = await fetch(`${BASE_URL}/${projectId}`, requestOptions);
+    const response = await fetch(
+      `${BASE_URL}/projects/${projectId}`,
+      requestOptions
+    );
     const result = await response.json();
     return result; // Güncelleme sonucu döner
   } catch (error) {
@@ -136,6 +140,46 @@ export async function getProjectDetails(token, projectId) {
     return result;
   } catch (error) {
     console.error("Proje detayları alma hatası:", error);
+    throw error;
+  }
+}
+
+/**
+ * Proje arama veya detay getirme
+ * @param {string} [token] - Authorization token (eklenebilir)
+ * @param {string} [projectId] - Proje ID'si (boşsa tüm projeleri getirir)
+ * @returns {object} Proje listesi veya detay
+ */
+export async function searchProjects(projectId = "") {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  // Eğer token gerekecekse
+  // myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const raw = JSON.stringify({});
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/projects/search`, requestOptions);
+
+    if (!response.ok) {
+      const errorMessage = await response.json;
+      console.error("API Hata Yanıtı:", errorMessage);
+      throw new Error(`Hata: ${response.status} - ${errorMessage}`);
+    }
+
+    const result = await response.json();
+    console.log("API Yanıtı:", result);
+    return result;
+  } catch (error) {
+    console.error("Proje arama/getirme hatası:", error);
     throw error;
   }
 }
