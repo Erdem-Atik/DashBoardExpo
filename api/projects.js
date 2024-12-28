@@ -183,3 +183,37 @@ export async function searchProjects(projectId = "") {
     throw error;
   }
 }
+
+export async function getSpecProjects(projectId = "") {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  // Eğer token gerekecekse
+  // myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const raw = JSON.stringify({ _id: projectId });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/projects/search`, requestOptions);
+
+    if (!response.ok) {
+      const errorMessage = await response.json;
+      console.error("API Hata Yanıtı:", errorMessage);
+      throw new Error(`Hata: ${response.status} - ${errorMessage}`);
+    }
+
+    const result = await response.json();
+    console.log("API Yanıtı:", result);
+    return result;
+  } catch (error) {
+    console.error("Proje arama/getirme hatası:", error);
+    throw error;
+  }
+}

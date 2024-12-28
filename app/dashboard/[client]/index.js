@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { getProjectDetails } from "../../../api/projects"; // Adjust the import path as needed
+import { getSpecProjects } from "../../../api/projects"; // Adjust the import path as needed
 import { useAuth } from "../../../context/AuthContext";
 
 export default function ProjectDetails() {
@@ -13,11 +13,11 @@ export default function ProjectDetails() {
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
-      if (!token || !client) return;
+      if (!client) return;
 
       try {
-        const details = await getProjectDetails(token, client);
-        setProjectDetails(details);
+        const details = await getSpecProjects(client);
+        setProjectDetails(details.projects);
       } catch (error) {
         console.error("Error fetching project details:", error);
       } finally {
@@ -26,7 +26,7 @@ export default function ProjectDetails() {
     };
 
     fetchProjectDetails();
-  }, [token, client]);
+  }, [client]);
 
   if (loading) {
     return (
@@ -41,14 +41,18 @@ export default function ProjectDetails() {
       {projectDetails ? (
         <>
           <Text style={styles.title}>Project Details</Text>
-          <Text style={styles.detail}>Name: {projectDetails.name}</Text>
+
+          <Text style={styles.detail}>Name: {projectDetails[0].name}</Text>
           <Text style={styles.detail}>
-            Description: {projectDetails.description}
+            Description: {projectDetails[0].description}
+          </Text>
+          <Text style={styles.detail}>ID: {projectDetails[0]._id}</Text>
+          <Text style={styles.detail}>
+            Start Date: {projectDetails[0].startDate}
           </Text>
           <Text style={styles.detail}>
-            Start Date: {projectDetails.startDate}
+            End Date: {projectDetails[0].endDate}
           </Text>
-          <Text style={styles.detail}>End Date: {projectDetails.endDate}</Text>
         </>
       ) : (
         <Text style={styles.error}>No project details found.</Text>

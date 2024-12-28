@@ -9,6 +9,7 @@ import {
   deleteProject,
   updateProject,
   searchProjects,
+  getSpecProjects,
 } from "../../api/projects";
 import { useRouter } from "expo-router";
 
@@ -49,7 +50,6 @@ export default function Dashboard() {
             try {
               const fetchedProjects = await searchProjects();
               setProjects(fetchedProjects.projects);
-              console.log(projects);
             } catch (error) {
               console.error("Error fetching projects:", error);
             }
@@ -88,6 +88,15 @@ export default function Dashboard() {
       <ProjectList
         projects={projects}
         onNavigateToProject={handleNavigateToProject}
+        onFetchSpecProject={async (projectId) => {
+          if (!token) return;
+          try {
+            const fetchedProject = await getSpecProjects(projectId);
+            setProjects((prevProjects) => [...prevProjects, fetchedProject]);
+          } catch (error) {
+            console.error("Error fetching project:", error);
+          }
+        }}
       />
     </View>
   );

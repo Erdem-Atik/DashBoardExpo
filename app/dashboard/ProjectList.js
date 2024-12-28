@@ -1,7 +1,11 @@
 import React from "react";
 import { ScrollView, TouchableOpacity, Text, StyleSheet } from "react-native";
 
-export default function ProjectList({ projects, onNavigateToProject }) {
+export default function ProjectList({
+  projects,
+  onNavigateToProject,
+  onFetchSpecProject,
+}) {
   return (
     <ScrollView style={styles.projectList}>
       {projects.length > 0 ? (
@@ -9,7 +13,10 @@ export default function ProjectList({ projects, onNavigateToProject }) {
           <TouchableOpacity
             key={project._id || index}
             style={styles.projectItem}
-            onPress={() => onNavigateToProject(project._id)}
+            onPress={() => {
+              onNavigateToProject(project._id);
+              onFetchSpecProject(project._id);
+            }}
           >
             <Text>Project Name: {project.name}</Text>
             <Text>Project ID: {project._id}</Text>
