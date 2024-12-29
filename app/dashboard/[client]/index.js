@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { getSpecProjects } from "../../../api/projects"; // Adjust the import path as needed
 import { useAuth } from "../../../context/AuthContext";
+import SideBar from "../SideBar";
 
 export default function ProjectDetails() {
   const { token } = useAuth(); // Get the token from context
@@ -38,6 +39,7 @@ export default function ProjectDetails() {
 
   return (
     <View style={styles.container}>
+      <SideBar></SideBar>
       {projectDetails ? (
         <>
           <Text style={styles.title}>Project Details</Text>
@@ -64,6 +66,7 @@ export default function ProjectDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "row",
     padding: 20,
     backgroundColor: "#f9f9f9",
   },

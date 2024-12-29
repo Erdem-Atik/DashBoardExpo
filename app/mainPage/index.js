@@ -14,9 +14,11 @@ import {
 import { useRouter } from "expo-router";
 
 export default function MainPage() {
+  const { token, username } = useAuth();
   return (
     <View style={styles.container}>
       <View style={styles.sidebar}>
+        <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
         <SideBar />
       </View>
       <View style={styles.main}>
@@ -31,8 +33,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "#fff",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
   sidebar: {
     width: 200,

@@ -13,7 +13,6 @@ export default function SideBar({
   const router = useRouter(); // Initialize router for navigation
 
   const navigateToDashBoard = () => {
-    console.log("hellooo");
     router.push("/dashboard/"); // Navigate to the dashboard page
   };
 

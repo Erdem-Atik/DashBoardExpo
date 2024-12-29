@@ -17,8 +17,6 @@ export default function SideBar({
 
   return (
     <View style={styles.sidebar}>
-      <Text style={styles.title}>Sidebar</Text>
-
       <TouchableOpacity
         style={styles.button}
         onPress={onCreateProject}

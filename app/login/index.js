@@ -1,4 +1,12 @@
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { useState, useEffect, use } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { loginUser, getValidateToken } from "../../api/auth";
@@ -53,7 +61,9 @@ const LoginScreen = () => {
         onChangeText={setPassword}
       />
       {error && <Text style={styles.error}>{error}</Text>}
-      <Button title="Login" onPress={handleLogin} />
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>LOGIN</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -62,6 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
     padding: 16,
     backgroundColor: "#f9f9f9",
   },
@@ -71,13 +82,25 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: "center",
   },
+  button: {
+    backgroundColor: "#007BFF",
+    width: "30%",
+    padding: 12,
+    borderRadius: 4,
+    marginBottom: 12,
+  },
   input: {
     height: 40,
+    width: "30%",
     borderColor: "#ccc",
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
     borderRadius: 4,
+  },
+  buttonText: {
+    color: "white",
+    textAlign: "center",
   },
   error: {
     color: "red",
