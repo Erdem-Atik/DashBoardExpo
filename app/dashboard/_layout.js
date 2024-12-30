@@ -1,13 +1,12 @@
 import { Slot, useRouter } from "expo-router";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ClientLayout() {
   const router = useRouter();
-
-  const handleSignOut = () => {
-    router.replace("/login"); // Navigate to login screen and prevent back navigation
-  };
+  const { logout } = useAuth();
+  console.log(logout);
 
   return (
     <View style={styles.container}>
@@ -17,7 +16,12 @@ export default function ClientLayout() {
         <Text style={styles.title} onPress={() => router.push("/dashboard")}>
           WELCOME TO THE DASHBOARD
         </Text>
-        <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
+        <TouchableOpacity
+          onPress={async () => {
+            await logout();
+          }}
+          style={styles.signOutButton}
+        >
           <Ionicons name="log-out-outline" size={20} color="red" />
           <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>
