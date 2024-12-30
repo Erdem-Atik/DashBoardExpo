@@ -6,7 +6,6 @@ import { useAuth } from "../../context/AuthContext";
 export default function ClientLayout() {
   const router = useRouter();
   const { logout } = useAuth();
-  console.log(logout);
 
   return (
     <View style={styles.container}>

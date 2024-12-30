@@ -65,23 +65,6 @@ export default function Dashboard() {
               console.error("Error deleting project:", error);
             }
           }}
-          onUpdateProject={async (projectId, updatedData) => {
-            if (!token) return;
-            try {
-              const updatedProject = await updateProject(
-                token,
-                projectId,
-                updatedData
-              );
-              setProjects((prevProjects) =>
-                prevProjects.map((project) =>
-                  project.id === projectId ? updatedProject : project
-                )
-              );
-            } catch (error) {
-              console.error("Error updating project:", error);
-            }
-          }}
         />
       </View>
       {/* Use the ProjectList component here */}
@@ -89,12 +72,38 @@ export default function Dashboard() {
         projects={projects}
         onNavigateToProject={handleNavigateToProject}
         onFetchSpecProject={async (projectId) => {
+          console.log(projectId);
           if (!token) return;
           try {
             const fetchedProject = await getSpecProjects(projectId);
             setProjects((prevProjects) => [...prevProjects, fetchedProject]);
           } catch (error) {
             console.error("Error fetching project:", error);
+          }
+        }}
+        onDeleteProject={async (projectId) => {
+          console.log(projectId);
+          if (!token) return;
+          try {
+            await deleteProject(projectId);
+            setProjects((prevProjects) =>
+              prevProjects.filter((project) => project.id !== projectId)
+            );
+          } catch (error) {
+            console.error("Error deleting project:", error);
+          }
+        }}
+        onUpdateProject={async (projectId) => {
+          if (!token) return;
+          try {
+            const updatedProject = await updateProject(projectId);
+            setProjects((prevProjects) =>
+              prevProjects.map((project) =>
+                project.id === projectId ? updatedProject : project
+              )
+            );
+          } catch (error) {
+            console.error("Error updating project:", error);
           }
         }}
       />
