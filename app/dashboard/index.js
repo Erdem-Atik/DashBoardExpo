@@ -72,7 +72,6 @@ export default function Dashboard() {
         projects={projects}
         onNavigateToProject={handleNavigateToProject}
         onFetchSpecProject={async (projectId) => {
-          console.log(projectId);
           if (!token) return;
           try {
             const fetchedProject = await getSpecProjects(projectId);
