@@ -33,26 +33,6 @@ export async function createProject(token, projectData) {
  * @param {string} token - Authorization token
  * @returns {array} Proje listesi
  */
-export async function getProjects(token) {
-  const myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${token}`);
-
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  try {
-    const response = await fetch(`${BASE_URL}/projects`, requestOptions);
-    const result = await response.json();
-    console.log(result);
-    return result.projects || [];
-  } catch (error) {
-    console.error("Projeleri alma hatası:", error);
-    throw error;
-  }
-}
 
 export async function getSpecProjects(projectId = "") {
   const myHeaders = new Headers();
@@ -78,9 +58,7 @@ export async function getSpecProjects(projectId = "") {
       console.error("API Hata Yanıtı:", errorMessage);
       throw new Error(`Hata: ${response.status} - ${errorMessage}`);
     }
-
     const result = await response.json();
-    console.log("API Yanıtı:", result);
     return result;
   } catch (error) {
     console.error("Proje arama/getirme hatası:", error);
@@ -120,7 +98,6 @@ export async function searchProjects(projectId = "") {
     }
 
     const result = await response.json();
-    console.log("API Yanıtı:", result);
     return result;
   } catch (error) {
     console.error("Proje arama/getirme hatası:", error);
