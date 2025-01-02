@@ -3,6 +3,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import SideBar from "./SideBar";
 import ProjectList from "./ProjectList";
+import Loader from "../../components/Loader";
+import { createRoot } from "react-dom/client";
 import {
   getProjects,
   createProject,
@@ -12,13 +14,15 @@ import {
   getSpecProjects,
 } from "../../api/projects";
 import { useRouter } from "expo-router";
+console.log(createRoot);
 
 export default function Dashboard() {
   const { token, username } = useAuth();
   const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+
   const router = useRouter();
 
-  // Navigate to project details page
   const handleNavigateToProject = (projectId) => {
     router.push(`/dashboard/${projectId}`);
   };
@@ -29,33 +33,41 @@ export default function Dashboard() {
         <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
         <SideBar
           token={token}
+          setIsLoading={setIsLoading} // Pass setIsLoading to SideBar
           onCreateProject={async () => {
             if (!token) return;
-            const newProject = {
-              name: "New Project",
-              description: "A description of the new project",
-              startDate: "2024-01-01",
-              endDate: "2024-12-31",
-            };
+            setIsLoading(true); // Start loader
             try {
+              const newProject = {
+                name: "New Project",
+                description: "A description of the new project",
+                startDate: "2024-01-01",
+                endDate: "2024-12-31",
+              };
               const result = await createProject(token, newProject);
-              console.log("Project created:", result);
               setProjects((prevProjects) => [...prevProjects, result]);
             } catch (error) {
               console.error("Error creating project:", error);
+            } finally {
+              setIsLoading(false); // Stop loader
             }
           }}
           onFetchProjects={async () => {
             if (!token) return;
+            setIsLoading(true);
+            setProjects([]);
             try {
               const fetchedProjects = await searchProjects();
               setProjects(fetchedProjects.projects);
             } catch (error) {
               console.error("Error fetching projects:", error);
+            } finally {
+              setIsLoading(false);
             }
           }}
           onDeleteProject={async (projectId) => {
             if (!token) return;
+            setIsLoading(true);
             try {
               await deleteProject(token, projectId);
               setProjects((prevProjects) =>
@@ -63,48 +75,16 @@ export default function Dashboard() {
               );
             } catch (error) {
               console.error("Error deleting project:", error);
+            } finally {
+              setIsLoading(false);
             }
           }}
         />
       </View>
-      {/* Use the ProjectList component here */}
+      {isLoading && <Loader style={styles.loaderStyle} />}
       <ProjectList
         projects={projects}
         onNavigateToProject={handleNavigateToProject}
-        onFetchSpecProject={async (projectId) => {
-          if (!token) return;
-          try {
-            const fetchedProject = await getSpecProjects(projectId);
-            setProjects((prevProjects) => [...prevProjects, fetchedProject]);
-          } catch (error) {
-            console.error("Error fetching project:", error);
-          }
-        }}
-        onDeleteProject={async (projectId) => {
-          console.log(projectId);
-          if (!token) return;
-          try {
-            await deleteProject(projectId);
-            setProjects((prevProjects) =>
-              prevProjects.filter((project) => project.id !== projectId)
-            );
-          } catch (error) {
-            console.error("Error deleting project:", error);
-          }
-        }}
-        onUpdateProject={async (projectId) => {
-          if (!token) return;
-          try {
-            const updatedProject = await updateProject(projectId);
-            setProjects((prevProjects) =>
-              prevProjects.map((project) =>
-                project.id === projectId ? updatedProject : project
-              )
-            );
-          } catch (error) {
-            console.error("Error updating project:", error);
-          }
-        }}
       />
     </View>
   );
@@ -121,6 +101,15 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "#f0f0f0",
     borderRadius: 5,
+  },
+  loaderStyle: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 18,

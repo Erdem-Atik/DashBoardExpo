@@ -2,21 +2,23 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   Alert,
   TouchableOpacity,
 } from "react-native";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { loginUser, getValidateToken } from "../../api/auth";
+import Loader from "../../components/Loader";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Initially true to validate token
   const { login, loadToken } = useAuth();
 
+  // Validate token on component mount
   useEffect(() => {
     const checkToken = async () => {
       try {
@@ -24,25 +26,36 @@ const LoginScreen = () => {
         if (token) {
           const isValid = await getValidateToken(token);
           if (isValid) {
-            return; // Already routed in loadToken
+            return; // Navigate or handle if already authenticated
           }
         }
       } catch (err) {
         console.error("Token validation error:", err);
+      } finally {
+        setIsLoading(false); // Stop showing loader
       }
     };
 
     checkToken();
   }, [loadToken]);
 
+  // Handle login
   const handleLogin = async () => {
+    setIsLoading(true); // Show loader during login
     try {
       const { token } = await loginUser(username, password); // Fetch token from API
       login(token, username); // Save token and navigate
     } catch (err) {
       setError(err.message || "Invalid login credentials");
+    } finally {
+      setIsLoading(false); // Hide loader after login
     }
   };
+
+  // Show Loader if `isLoading` is true
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <View style={styles.container}>
@@ -71,7 +84,7 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex - start",
+    justifyContent: "flex-start",
     alignItems: "center",
     padding: 15,
     paddingTop: 100,
