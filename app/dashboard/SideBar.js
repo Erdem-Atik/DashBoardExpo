@@ -5,7 +5,7 @@ import { useRouter } from "expo-router"; // Import useRouter for dynamic navigat
 export default function SideBar({
   token,
   onCreateProject,
-  onFetchProjects,
+  onGetProjects,
   onDeleteProject,
   onUpdateProject,
 }) {
@@ -27,7 +27,7 @@ export default function SideBar({
 
       <TouchableOpacity
         style={styles.button}
-        onPress={onFetchProjects}
+        onPress={onGetProjects}
         disabled={!token}
       >
         <Text>Get Projects</Text>

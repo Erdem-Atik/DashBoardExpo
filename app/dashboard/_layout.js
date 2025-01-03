@@ -34,7 +34,10 @@ export default function ClientLayout() {
 
 const styles = StyleSheet.create({
   container: {
+    borderRadius: 10,
     flex: 1,
+    padding: 20,
+    margin: 10,
   },
   header: {
     flexDirection: "row",

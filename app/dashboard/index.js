@@ -46,13 +46,14 @@ export default function Dashboard() {
               console.error("Error creating project:", error);
             }
           }}
-          onFetchProjects={async () => {
+          onGetProjects={async () => {
             if (!token) return;
+            setProjects([]);
             setIsLoading(true);
             try {
-              const fetchedProjects = await searchProjects();
-              if (fetchedProjects.success) {
-                setProjects(fetchedProjects.projects);
+              const gottenProjects = await searchProjects();
+              if (gottenProjects.success) {
+                setProjects(gottenProjects.projects);
                 setIsLoading(false);
               }
             } catch (error) {
@@ -121,6 +122,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "#f9f9f9",
+    padding: 10,
+    borderRadius: 20,
   },
   sidebar: {
     width: 200,
