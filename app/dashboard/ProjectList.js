@@ -99,7 +99,7 @@ export default function ProjectList({
       <FlatList
         data={projects}
         renderItem={({ item }) => <Item item={item} />}
-        keyExtractor={(item) => item._id.toString()}
+        keyExtractor={(item) => item._id}
         numColumns={2}
         contentContainerStyle={styles.container}
       />
