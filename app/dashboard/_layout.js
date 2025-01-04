@@ -1,11 +1,14 @@
 import { Slot, useRouter } from "expo-router";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
+import ConfirmationModal from "../../components/ConfimationModal";
+import { useState } from "react";
 
 export default function ClientLayout() {
   const router = useRouter();
   const { logout } = useAuth();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -17,13 +20,22 @@ export default function ClientLayout() {
         </Text>
         <TouchableOpacity
           onPress={async () => {
-            await logout();
+            setShowConfirmationModal(true);
           }}
           style={styles.signOutButton}
         >
           <Ionicons name="log-out-outline" size={20} color="red" />
           <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>
+        <ConfirmationModal
+          visible={showConfirmationModal}
+          onClose={() => setShowConfirmationModal(false)}
+          onConfirm={async () => {
+            await logout();
+            setShowConfirmationModal(false);
+          }}
+          message="Are you sure you want to sign out?"
+        />
       </View>
 
       {/* Slot for Nested Routes */}
