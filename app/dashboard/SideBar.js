@@ -67,12 +67,11 @@ export default function SideBar({
 
 const styles = StyleSheet.create({
   sidebar: {
-    width: 200,
-    padding: 20,
+    padding: 10,
     backgroundColor: "#f0f0f0",
   },
   title: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "bold",
     marginBottom: 20,
   },

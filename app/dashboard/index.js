@@ -75,44 +75,46 @@ export default function Dashboard() {
         />
       </View>
       {isLoading && <Loader />}
-      <ProjectList
-        projects={projects}
-        onNavigateToProject={handleNavigateToProject}
-        onFetchSpecProject={async (projectId) => {
-          if (!token) return;
-          try {
-            const fetchedProject = await getSpecProjects(projectId);
-            setProjects((prevProjects) => [...prevProjects, fetchedProject]);
-          } catch (error) {
-            console.error("Error fetching project:", error);
-          }
-        }}
-        onDeleteProject={async (projectId) => {
-          console.log(projectId);
-          if (!token) return;
-          try {
-            await deleteProject(projectId);
-            setProjects((prevProjects) =>
-              prevProjects.filter((project) => project.id !== projectId)
-            );
-          } catch (error) {
-            console.error("Error deleting project:", error);
-          }
-        }}
-        onUpdateProject={async (projectId) => {
-          if (!token) return;
-          try {
-            const updatedProject = await updateProject(projectId);
-            setProjects((prevProjects) =>
-              prevProjects.map((project) =>
-                project.id === projectId ? updatedProject : project
-              )
-            );
-          } catch (error) {
-            console.error("Error updating project:", error);
-          }
-        }}
-      />
+      <View style={styles.projectList}>
+        <ProjectList
+          projects={projects}
+          onNavigateToProject={handleNavigateToProject}
+          onFetchSpecProject={async (projectId) => {
+            if (!token) return;
+            try {
+              const fetchedProject = await getSpecProjects(projectId);
+              setProjects((prevProjects) => [...prevProjects, fetchedProject]);
+            } catch (error) {
+              console.error("Error fetching project:", error);
+            }
+          }}
+          onDeleteProject={async (projectId) => {
+            console.log(projectId);
+            if (!token) return;
+            try {
+              await deleteProject(projectId);
+              setProjects((prevProjects) =>
+                prevProjects.filter((project) => project.id !== projectId)
+              );
+            } catch (error) {
+              console.error("Error deleting project:", error);
+            }
+          }}
+          onUpdateProject={async (projectId) => {
+            if (!token) return;
+            try {
+              const updatedProject = await updateProject(projectId);
+              setProjects((prevProjects) =>
+                prevProjects.map((project) =>
+                  project.id === projectId ? updatedProject : project
+                )
+              );
+            } catch (error) {
+              console.error("Error updating project:", error);
+            }
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -126,9 +128,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   sidebar: {
-    width: 200,
+    flex: 1,
     padding: 5,
     backgroundColor: "#f0f0f0",
+    borderRadius: 5,
+  },
+  projectList: {
+    flex: 6,
+    padding: 5,
+    backgroundColor: "#fff",
     borderRadius: 5,
   },
   title: {

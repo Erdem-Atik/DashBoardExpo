@@ -9,6 +9,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import ConfirmationModal from "../../components/ConfimationModal";
+console.log(ConfirmationModal);
 
 export default function ProjectList({
   projects,
@@ -20,35 +22,6 @@ export default function ProjectList({
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
-
-  const ConfirmationModal = ({ visible, onClose, onConfirm, message }) => (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
-    >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>{message}</Text>
-          <View style={styles.modalButtons}>
-            <TouchableOpacity
-              style={[styles.modalButton, styles.cancelButton]}
-              onPress={onClose}
-            >
-              <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.modalButton, styles.confirmButton]}
-              onPress={onConfirm}
-            >
-              <Text style={styles.buttonText}>Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </Modal>
-  );
 
   const Item = ({ item }) => (
     <SafeAreaProvider>
@@ -129,39 +102,40 @@ export default function ProjectList({
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    flexDirection: "column",
     padding: 5,
     borderRadius: 5,
   },
   projectItem: {
+    flex: 1,
     backgroundColor: "#f0f0f0",
     padding: 10,
     margin: 5,
     borderRadius: 5,
-    flex: 1,
-    maxWidth: "48%",
     alignItems: "flex-start", // Align contents to the left
   },
   projectName: {
-    fontSize: 18,
+    fontSize: 5,
     fontWeight: "bold",
     marginBottom: 5, // Add spacing between elements
     textAlign: "left", // Ensure text is aligned to the left
   },
   projectId: {
-    fontSize: 14,
+    fontSize: 4,
     fontWeight: "bold",
     color: "#555",
     marginBottom: 5,
     textAlign: "left",
   },
   projectDescription: {
-    fontSize: 14,
+    fontSize: 4,
     color: "#666",
     marginBottom: 5,
     textAlign: "left",
   },
   projectDates: {
-    fontSize: 12,
+    fontSize: 4,
     color: "#999",
     marginBottom: 5,
     textAlign: "left",
@@ -197,55 +171,6 @@ const styles = StyleSheet.create({
   },
   deleteButtonText: {
     color: "#fff",
-    textAlign: "center",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalView: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    width: "80%",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-    fontSize: 16,
-  },
-  modalButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  modalButton: {
-    borderRadius: 5,
-    padding: 10,
-    elevation: 2,
-    flex: 1,
-    marginHorizontal: 5,
-  },
-  cancelButton: {
-    backgroundColor: "#6c757d",
-  },
-  confirmButton: {
-    backgroundColor: "#007bff",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
     textAlign: "center",
   },
 });
