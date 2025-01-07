@@ -17,26 +17,17 @@ export default function SideBar({
 
   return (
     <View style={styles.sidebar}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={onCreateProject}
-        disabled={!token}
-      >
+      <TouchableOpacity style={styles.button} onPress={onCreateProject}>
         <Text>Create Project</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={onGetProjects}
-        disabled={!token}
-      >
+      <TouchableOpacity style={styles.button} onPress={onGetProjects}>
         <Text>Get Projects</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => onDeleteProject("sample-project-id")} // Replace with a real project ID
-        disabled={!token}
       >
         <Text>Delete Project</Text>
       </TouchableOpacity>
@@ -49,7 +40,6 @@ export default function SideBar({
             description: "Updated description",
           })
         } // Replace with real project ID and updated data
-        disabled={!token}
       >
         <Text>Update Project</Text>
       </TouchableOpacity>
@@ -57,7 +47,6 @@ export default function SideBar({
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigateToProjectDetails("sample-project-id")} // Replace with real project ID
-        disabled={!token}
       >
         <Text>Go to Project Details</Text>
       </TouchableOpacity>

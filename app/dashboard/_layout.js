@@ -1,4 +1,4 @@
-import { Slot, useRouter } from "expo-router";
+import { Slot, Stack, useRouter } from "expo-router";
 import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
@@ -33,6 +33,7 @@ export default function ClientLayout() {
           onConfirm={async () => {
             await logout();
             setShowConfirmationModal(false);
+            console.log("logout");
           }}
           message="Are you sure you want to sign out?"
         />
@@ -48,8 +49,8 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     flex: 1,
-    padding: 20,
-    margin: 10,
+    padding: 0,
+    margin: 0,
   },
   header: {
     flexDirection: "row",

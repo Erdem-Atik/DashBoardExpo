@@ -31,7 +31,6 @@ export default function Dashboard() {
         <SideBar
           token={token}
           onCreateProject={async () => {
-            if (!token) return;
             const newProject = {
               name: "New Project",
               description: "A description of the new project",
@@ -47,7 +46,7 @@ export default function Dashboard() {
             }
           }}
           onGetProjects={async () => {
-            if (!token) return;
+            console.log("clicked");
             setProjects([]);
             setIsLoading(true);
             try {
