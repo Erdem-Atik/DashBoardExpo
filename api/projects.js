@@ -138,7 +138,6 @@ export async function updateProject(projectId) {
     }
 
     const result = await response.json();
-    console.log("Güncelleme başarılı:", result);
     return result;
   } catch (error) {
     console.error("Proje güncelleme hatası:", error);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  useWindowDimensions,
   TouchableOpacity,
   Text,
   StyleSheet,
@@ -8,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import ConfirmationModal from "../../components/ConfimationModal";
-console.log(ConfirmationModal);
+import ResultModal from "../../components/ResultModal";
 
 export default function ProjectList({
   projects,
@@ -19,6 +20,8 @@ export default function ProjectList({
 }) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [delConfirmModal, setDelConfirmModal] = useState(false);
+  const [upConfirmModal, setUpConfirmModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   const Item = ({ item }) => (
@@ -74,25 +77,37 @@ export default function ProjectList({
         numColumns={2}
         contentContainerStyle={styles.container}
       />
-
+      const [delConfirmModal, setDelConfirmModal] = useState(false); const
+      [upConfirmModal, setUpConfirmModal] = useState(false);
       <ConfirmationModal
         visible={deleteModalVisible}
         onClose={() => setDeleteModalVisible(false)}
         onConfirm={() => {
           onDeleteProject(selectedProjectId);
           setDeleteModalVisible(false);
+          setDelConfirmModal(true);
         }}
         message="Are you sure you want to delete this project?"
       />
-
       <ConfirmationModal
         visible={updateModalVisible}
         onClose={() => setUpdateModalVisible(false)}
         onConfirm={() => {
           onUpdateProject(selectedProjectId);
           setUpdateModalVisible(false);
+          setUpConfirmModal(true);
         }}
         message="Are you sure you want to update this project?"
+      />
+      <ResultModal
+        visible={upConfirmModal}
+        onClose={() => setUpConfirmModal(false)}
+        message="Project updated successfully!"
+      />
+      <ResultModal
+        visible={delConfirmModal}
+        onClose={() => setDelConfirmModal(false)}
+        message="Project deleted successfully!"
       />
     </>
   );

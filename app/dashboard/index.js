@@ -26,10 +26,10 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.sidebar}>
+      {isLoading && <Loader />}
+      <View style={!isLoading ? styles.sidebar : styles.invisible}>
         <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
         <SideBar
-          token={token}
           onCreateProject={async () => {
             const newProject = {
               name: "New Project",
@@ -46,11 +46,13 @@ export default function Dashboard() {
             }
           }}
           onGetProjects={async () => {
-            console.log("clicked");
-            setProjects([]);
             setIsLoading(true);
+
+            console.log(isLoading);
+
             try {
               const gottenProjects = await searchProjects();
+              setIsLoading(true);
               if (gottenProjects.success) {
                 setProjects(gottenProjects.projects);
                 setIsLoading(false);
@@ -61,7 +63,6 @@ export default function Dashboard() {
             }
           }}
           onDeleteProject={async (projectId) => {
-            if (!token) return;
             try {
               await deleteProject(token, projectId);
               setProjects((prevProjects) =>
@@ -73,41 +74,53 @@ export default function Dashboard() {
           }}
         />
       </View>
-      {isLoading && <Loader />}
-      <View style={styles.projectList}>
+      <View style={!isLoading ? styles.projectList : styles.invisible}>
         <ProjectList
           projects={projects}
           onNavigateToProject={handleNavigateToProject}
           onFetchSpecProject={async (projectId) => {
-            if (!token) return;
             try {
+              setIsLoading(true);
               const fetchedProject = await getSpecProjects(projectId);
-              setProjects((prevProjects) => [...prevProjects, fetchedProject]);
+              console.log(fetchedProject);
+              if (fetchedProject.success) {
+                setIsLoading(false);
+                setProjects((prevProjects) => [
+                  ...prevProjects,
+                  fetchedProject,
+                ]);
+              }
             } catch (error) {
               console.error("Error fetching project:", error);
             }
           }}
           onDeleteProject={async (projectId) => {
             console.log(projectId);
-            if (!token) return;
+
             try {
-              await deleteProject(projectId);
-              setProjects((prevProjects) =>
-                prevProjects.filter((project) => project.id !== projectId)
-              );
+              setIsLoading(true);
+              const deleteConfirmation = await deleteProject(projectId);
+              if (deleteConfirmation.success) {
+                setProjects((prevProjects) =>
+                  prevProjects.filter((project) => project.id !== projectId)
+                );
+                setIsLoading(false);
+              }
             } catch (error) {
               console.error("Error deleting project:", error);
             }
           }}
           onUpdateProject={async (projectId) => {
-            if (!token) return;
             try {
+              setIsLoading(true);
               const updatedProject = await updateProject(projectId);
-              setProjects((prevProjects) =>
-                prevProjects.map((project) =>
-                  project.id === projectId ? updatedProject : project
-                )
-              );
+              if (updatedProject.success) {
+                setIsLoading(false);
+                setProjects((prevProjects) => [
+                  ...prevProjects,
+                  updatedProject,
+                ]);
+              }
             } catch (error) {
               console.error("Error updating project:", error);
             }
@@ -142,5 +155,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  invisible: {
+    display: "none",
   },
 });
