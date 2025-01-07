@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import {
-  Modal,
-  Alert,
   TouchableOpacity,
   Text,
   StyleSheet,
