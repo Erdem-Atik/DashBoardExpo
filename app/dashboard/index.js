@@ -82,7 +82,7 @@ export default function Dashboard() {
             try {
               setIsLoading(true);
               const fetchedProject = await getSpecProjects(projectId);
-              console.log(fetchedProject);
+
               if (fetchedProject.success) {
                 setIsLoading(false);
                 setProjects((prevProjects) => [

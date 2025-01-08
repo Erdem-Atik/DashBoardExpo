@@ -2,7 +2,7 @@ import { Slot, Stack, useRouter } from "expo-router";
 import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
-import ConfirmationModal from "../../components/ConfimationModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import { useState } from "react";
 
 export default function ClientLayout() {

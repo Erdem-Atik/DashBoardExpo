@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
-import ConfirmationModal from "../../components/ConfimationModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import ResultModal from "../../components/ResultModal";
 
 export default function ProjectList({
@@ -77,8 +77,6 @@ export default function ProjectList({
         numColumns={2}
         contentContainerStyle={styles.container}
       />
-      const [delConfirmModal, setDelConfirmModal] = useState(false); const
-      [upConfirmModal, setUpConfirmModal] = useState(false);
       <ConfirmationModal
         visible={deleteModalVisible}
         onClose={() => setDeleteModalVisible(false)}
