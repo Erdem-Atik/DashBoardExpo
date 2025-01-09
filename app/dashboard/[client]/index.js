@@ -27,32 +27,33 @@ export default function ProjectDetails() {
   const [upConfirmModal, setUpConfirmModal] = useState(false);
   const router = useRouter();
 
-  const confirmUpdate = async (projectId) => {
+  const handleUpdate = async (projectId) => {
     try {
-      setLoading(true);
       const response = await updateProject(projectId);
-      const result = await response.json();
-      if (result.success) {
-        console.log(result);
-        setLoading(false);
-        setUpConfirmModal(true);
-        return true;
+      if (response.success) {
+        setUpdateModalVisible(false);
+        // Optionally navigate away or refresh the page
       }
     } catch (error) {
       console.error("Error updating project:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const confirmDelete = async (projectId) => {
+  const handleDelete = async (projectId) => {
     try {
+      setLoading(true);
       const response = await deleteProject(projectId);
-
       if (response.success) {
+        setDeleteModalVisible(false);
         setLoading(false);
-        setDeleteModalVisible(true);
+        // Optionally navigate away or refresh the page
       }
     } catch (error) {
       console.error("Error deleting project:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,7 +104,7 @@ export default function ProjectDetails() {
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={() => {
-                confirmDelete(projectDetails[0]._id);
+                setDeleteModalVisible(true);
               }}
             >
               <Text style={styles.deleteButtonText}>Delete</Text>
@@ -112,11 +113,7 @@ export default function ProjectDetails() {
           <ConfirmationModal
             visible={deleteModalVisible}
             onClose={() => setDeleteModalVisible(false)}
-            onConfirm={() => {
-              confirmDelete(projectDetails[0]._id);
-              setDeleteModalVisible(false);
-              console.log(deleteModalVisible);
-            }}
+            onConfirm={() => handleDelete(projectDetails[0]._id)}
             message="Are you sure you want to delete this project?"
           />
         </>
