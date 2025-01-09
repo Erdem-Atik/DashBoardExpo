@@ -45,24 +45,6 @@ export default function ProjectList({
           >
             <Text style={styles.selectButtonText}>Select</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.updateButton}
-            onPress={() => {
-              setSelectedProjectId(item._id);
-              setUpdateModalVisible(true);
-            }}
-          >
-            <Text style={styles.updateButtonText}>Update</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.deleteButton}
-            onPress={() => {
-              setSelectedProjectId(item._id);
-              setDeleteModalVisible(true);
-            }}
-          >
-            <Text style={styles.deleteButtonText}>Delete</Text>
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -76,36 +58,6 @@ export default function ProjectList({
         keyExtractor={(item) => item._id}
         numColumns={2}
         contentContainerStyle={styles.container}
-      />
-      <ConfirmationModal
-        visible={deleteModalVisible}
-        onClose={() => setDeleteModalVisible(false)}
-        onConfirm={() => {
-          onDeleteProject(selectedProjectId);
-          setDeleteModalVisible(false);
-          setDelConfirmModal(true);
-        }}
-        message="Are you sure you want to delete this project?"
-      />
-      <ConfirmationModal
-        visible={updateModalVisible}
-        onClose={() => setUpdateModalVisible(false)}
-        onConfirm={() => {
-          onUpdateProject(selectedProjectId);
-          setUpdateModalVisible(false);
-          setUpConfirmModal(true);
-        }}
-        message="Are you sure you want to update this project?"
-      />
-      <ResultModal
-        visible={upConfirmModal}
-        onClose={() => setUpConfirmModal(false)}
-        message="Project updated successfully!"
-      />
-      <ResultModal
-        visible={delConfirmModal}
-        onClose={() => setDelConfirmModal(false)}
-        message="Project deleted successfully!"
       />
     </>
   );
@@ -127,26 +79,26 @@ const styles = StyleSheet.create({
     alignItems: "flex-start", // Align contents to the left
   },
   projectName: {
-    fontSize: 5,
+    fontSize: 14,
     fontWeight: "bold",
     marginBottom: 5, // Add spacing between elements
     textAlign: "left", // Ensure text is aligned to the left
   },
   projectId: {
-    fontSize: 4,
+    fontSize: 12,
     fontWeight: "bold",
     color: "#555",
     marginBottom: 5,
     textAlign: "left",
   },
   projectDescription: {
-    fontSize: 4,
+    fontSize: 12,
     color: "#666",
     marginBottom: 5,
     textAlign: "left",
   },
   projectDates: {
-    fontSize: 4,
+    fontSize: 12,
     color: "#999",
     marginBottom: 5,
     textAlign: "left",

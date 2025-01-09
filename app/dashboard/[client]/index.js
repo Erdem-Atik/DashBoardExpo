@@ -29,10 +29,11 @@ export default function ProjectDetails() {
 
   const handleUpdate = async (projectId) => {
     try {
+      setLoading(true);
       const response = await updateProject(projectId);
       if (response.success) {
         setUpdateModalVisible(false);
-        // Optionally navigate away or refresh the page
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error updating project:", error);
@@ -102,6 +103,15 @@ export default function ProjectDetails() {
           </Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
+              style={styles.updateButton}
+              onPress={() => {
+                setUpdateModalVisible(true);
+              }}
+            >
+              <Text style={styles.deleteButtonText}>UPDATE</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
               style={styles.deleteButton}
               onPress={() => {
                 setDeleteModalVisible(true);
@@ -113,8 +123,30 @@ export default function ProjectDetails() {
           <ConfirmationModal
             visible={deleteModalVisible}
             onClose={() => setDeleteModalVisible(false)}
-            onConfirm={() => handleDelete(projectDetails[0]._id)}
+            onConfirm={() => {
+              handleDelete(projectDetails[0]._id);
+              setDelConfirmModal(true);
+            }}
             message="Are you sure you want to delete this project?"
+          />
+          <ConfirmationModal
+            visible={updateModalVisible}
+            onClose={() => setUpdateModalVisible(false)}
+            onConfirm={() => {
+              handleUpdate(projectDetails[0]._id);
+              setUpConfirmModal(true);
+            }}
+            message="Are you sure you want to delete this project?"
+          />
+          <ResultModal
+            visible={delConfirmModal}
+            onClose={() => setDelConfirmModal(false)}
+            message="Project deleted successfully!"
+          />
+          <ResultModal
+            visible={upConfirmModal}
+            onClose={() => setUpConfirmModal(false)}
+            message="Project updated successfully!"
           />
         </>
       ) : (
