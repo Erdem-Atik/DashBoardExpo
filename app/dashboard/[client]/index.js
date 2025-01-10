@@ -27,6 +27,21 @@ export default function ProjectDetails() {
   const [upConfirmModal, setUpConfirmModal] = useState(false);
   const router = useRouter();
 
+  const handleDelete = async (projectId) => {
+    try {
+      setLoading(true);
+      const response = await deleteProject(projectId);
+      if (response.success) {
+        setDeleteModalVisible(false);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleUpdate = async (projectId) => {
     try {
       setLoading(true);
@@ -37,22 +52,6 @@ export default function ProjectDetails() {
       }
     } catch (error) {
       console.error("Error updating project:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (projectId) => {
-    try {
-      setLoading(true);
-      const response = await deleteProject(projectId);
-      if (response.success) {
-        setDeleteModalVisible(false);
-        setLoading(false);
-        // Optionally navigate away or refresh the page
-      }
-    } catch (error) {
-      console.error("Error deleting project:", error);
     } finally {
       setLoading(false);
     }
@@ -140,7 +139,10 @@ export default function ProjectDetails() {
           />
           <ResultModal
             visible={delConfirmModal}
-            onClose={() => setDelConfirmModal(false)}
+            onClose={() => {
+              setDelConfirmModal(false);
+              router.push("/dashboard");
+            }}
             message="Project deleted successfully!"
           />
           <ResultModal

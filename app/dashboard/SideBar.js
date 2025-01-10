@@ -23,32 +23,6 @@ export default function SideBar({
       <TouchableOpacity style={styles.button} onPress={onGetProjects}>
         <Text>Get Projects</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => onDeleteProject("sample-project-id")} // Replace with a real project ID
-      >
-        <Text>Delete Project</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          onUpdateProject("sample-project-id", {
-            name: "Updated Project Name",
-            description: "Updated description",
-          })
-        } // Replace with real project ID and updated data
-      >
-        <Text>Update Project</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigateToProjectDetails("sample-project-id")} // Replace with real project ID
-      >
-        <Text>Go to Project Details</Text>
-      </TouchableOpacity>
     </View>
   );
 }
