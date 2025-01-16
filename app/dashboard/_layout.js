@@ -11,46 +11,34 @@ export default function ClientLayout() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-
-      <View style={styles.header}>
-        <Text style={styles.title} onPress={() => router.push("/dashboard")}>
-          WELCOME TO THE DASHBOARD
-        </Text>
-        <TouchableOpacity
-          onPress={async () => {
-            setShowConfirmationModal(true);
-          }}
-          style={styles.signOutButton}
-        >
-          <Ionicons name="log-out-outline" size={20} color="red" />
-          <Text style={styles.signOutText}>Sign Out</Text>
-        </TouchableOpacity>
-        <ConfirmationModal
-          visible={showConfirmationModal}
-          onClose={() => setShowConfirmationModal(false)}
-          onConfirm={async () => {
-            await logout();
-            setShowConfirmationModal(false);
-            console.log("logout");
-          }}
-          message="Are you sure you want to sign out?"
-        />
+    <View style={styles.outerContainer}>
+      <View style={styles.container}>
+        <Slot />
       </View>
-
-      {/* Slot for Nested Routes */}
-      <Slot />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 10,
+  outerContainer: {
     flex: 1,
-    padding: 0,
-    margin: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 35,
+    paddingVertical: 25, // Equal top and bottom padding
+    paddingHorizontal: 25, // Equal left and right padding
+    backgroundColor: "#ecf4f4",
+  },
+  container: {
+    flex: 1,
+    justifyContent: "flex-start",
+    borderRadius: 25,
+    paddingVertical: 10, // Equal top and bottom padding
+    paddingHorizontal: 10, // Equal left and right padding
+    marginVertical: 0, // Equal top and bottom margin
+    marginHorizontal: 10, // Equal left and right margin
+    width: "100%",
+    height: "100%",
   },
   header: {
     flexDirection: "row",

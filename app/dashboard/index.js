@@ -14,7 +14,7 @@ import { useRouter } from "expo-router";
 import Loader from "../../components/Loader";
 
 export default function Dashboard() {
-  const { token, username } = useAuth();
+  const { token, userName } = useAuth();
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -27,9 +27,10 @@ export default function Dashboard() {
   return (
     <View style={styles.container}>
       {isLoading && <Loader />}
-      <View style={!isLoading ? styles.sidebar : styles.invisible}>
-        <Text style={styles.title}>Welcome, {username || "Guest"}!</Text>
+
+      {!isLoading && (
         <SideBar
+          userName={userName}
           onCreateProject={async () => {
             const newProject = {
               name: "New Project",
@@ -73,7 +74,8 @@ export default function Dashboard() {
             }
           }}
         />
-      </View>
+      )}
+
       <View style={!isLoading ? styles.projectList : styles.invisible}>
         <ProjectList
           projects={projects}
@@ -138,12 +140,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
     padding: 10,
     borderRadius: 20,
-  },
-  sidebar: {
-    flex: 1,
-    padding: 5,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 5,
   },
   projectList: {
     flex: 6,

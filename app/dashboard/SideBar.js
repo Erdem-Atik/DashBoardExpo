@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router"; // Import useRouter for dynamic navigation
 
 export default function SideBar({
+  userName,
   onCreateProject,
   onGetProjects,
   onDeleteProject,
@@ -16,6 +17,7 @@ export default function SideBar({
 
   return (
     <View style={styles.sidebar}>
+      <Text style={styles.title}>Welcome, {userName || "Guest"}!</Text>
       <TouchableOpacity style={styles.button} onPress={onCreateProject}>
         <Text>Create Project</Text>
       </TouchableOpacity>
@@ -30,7 +32,10 @@ export default function SideBar({
 const styles = StyleSheet.create({
   sidebar: {
     padding: 10,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "red", //#f0f0f0"
+    maxHeight: "50%", // Ensure the sidebar takes the full height of the screen
+    margin: 0, // Remove any default margin
+    borderWidth: 5,
   },
   title: {
     fontSize: 12,

@@ -18,7 +18,6 @@ const Mainlayout = () => {
     <AuthProvider>
       <ProjectProvider>
         <View style={styles.container}>
-          <BrandHeader />
           <View style={styles.content}>
             <Slot />
           </View>

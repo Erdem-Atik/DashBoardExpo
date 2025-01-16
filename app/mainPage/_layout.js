@@ -10,29 +10,38 @@ export default function MainLayout() {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
+    <View style={styles.outerContainer}>
+      <View style={styles.innerContainer}>
+        {/* Header */}
 
-      <View style={styles.header}>
-        <Text style={styles.title} onPress={() => router.push("/mainPage")}>
-          ANA SAYFA
-        </Text>
-        <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
-          <Ionicons name="log-out-outline" size={20} color="red" />
-          <Text style={styles.signOutText}>Sign Out</Text>
-        </TouchableOpacity>
+        {/* Slot for Nested Routes */}
+        <Slot />
       </View>
-
-      {/* Slot for Nested Routes */}
-      <Slot />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  outerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 25,
+    paddingVertical: 25, // Equal top and bottom padding
+    paddingHorizontal: 25, // Equal left and right padding
+    backgroundColor: "#ecf4f4",
+  },
+  innerContainer: {
     flex: 1,
     justifyContent: "flex-start",
+    borderRadius: 25,
+    paddingVertical: 10, // Equal top and bottom padding
+    paddingHorizontal: 10, // Equal left and right padding
+    marginVertical: 0, // Equal top and bottom margin
+    marginHorizontal: 10, // Equal left and right margin
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",
@@ -40,6 +49,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     backgroundColor: "lavender",
+    borderRadius: 10,
   },
   title: {
     fontSize: 24,
@@ -47,18 +57,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   signOutButton: {
-    flexDirection: "row", // Align icon and text horizontally
+    flexDirection: "row",
     alignItems: "center",
   },
   signOutText: {
     fontSize: 16,
     color: "red",
-    marginLeft: 5, // Add some space between the icon and text
+    marginLeft: 5,
   },
   brandName: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#007BFF", // or your brand color
+    color: "#007BFF",
   },
   tagline: {
     fontSize: 14,
