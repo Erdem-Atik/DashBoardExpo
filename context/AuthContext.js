@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     setToken(newToken);
     setUsername(newUsername);
     Cookies.set("my-key", newToken);
-    router.push("/mainPage"); // Navigate to the dashboard
+    router.push("/dashBoard"); // Navigate to the dashboard
   };
 
   const logout = async () => {
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     const savedToken = Cookies.get("my-key");
     if (savedToken) {
       setToken(savedToken);
-      router.replace("/mainPage"); // Navigate to the dashboard if a token exists
+      router.replace("/dashboard"); // Navigate to the dashboard if a token exists
     }
   };
 

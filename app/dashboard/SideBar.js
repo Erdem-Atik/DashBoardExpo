@@ -1,13 +1,16 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router"; // Import useRouter for dynamic navigation
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function SideBar({
   userName,
+  selectedButton,
+  setSelectedButton,
   onCreateProject,
   onGetProjects,
-  onDeleteProject,
-  onUpdateProject,
 }) {
   const router = useRouter(); // Initialize router for navigation
 
@@ -17,14 +20,53 @@ export default function SideBar({
 
   return (
     <View style={styles.sidebar}>
+      <Image
+        source={require("../../assets/yonetimEd.png")}
+        style={styles.logo}
+      />
       <Text style={styles.title}>Welcome, {userName || "Guest"}!</Text>
-      <TouchableOpacity style={styles.button} onPress={onCreateProject}>
-        <Text>Create Project</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={onCreateProject}>
+          <Ionicons name="create" size={24} color="black" />
+          <Text>Create Project</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={onGetProjects}>
-        <Text>Get Projects</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            selectedButton === "dashboard" && styles.buttonSelected,
+          ]}
+          onPress={() => {
+            console.log("Button pressed!");
+            setSelectedButton("dashboard");
+            onGetProjects();
+          }}
+        >
+          <MaterialIcons
+            name="dashboard"
+            size={24}
+            color={selectedButton === "dashboard" ? "#007AFF" : "black"}
+          />
+          <Text
+            style={[
+              styles.buttonText,
+              selectedButton === "dashboard" && styles.buttonTextSelected,
+            ]}
+          >
+            DashBoard
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}>
+          <MaterialIcons name="report" size={24} color="black" />
+          <Text> Reports</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}>
+          <MaterialIcons name="manage-accounts" size={24} color="black" />
+          <Text> My Profile</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -32,10 +74,17 @@ export default function SideBar({
 const styles = StyleSheet.create({
   sidebar: {
     padding: 10,
-    backgroundColor: "red", //#f0f0f0"
-    maxHeight: "50%", // Ensure the sidebar takes the full height of the screen
+    backgroundColor: "red",
     margin: 0, // Remove any default margin
     borderWidth: 5,
+    maxWidth: "%55",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    marginTop: 10,
+    backgroundColor: "#f9f9f9", //"#f9f9f9"
+    borderRadius: 5,
+    padding: 10,
   },
   title: {
     fontSize: 12,
@@ -43,10 +92,26 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
+    flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "transparent",
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
+  },
+  buttonSelected: {
+    backgroundColor: "#e0e0e0",
+  },
+  buttonText: {
+    color: "black",
+  },
+  buttonTextSelected: {
+    color: "#007AFF",
+    fontWeight: "bold",
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
 });

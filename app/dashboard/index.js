@@ -17,6 +17,7 @@ export default function Dashboard() {
   const { token, userName } = useAuth();
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedButton, setSelectedButton] = useState(null); // Move state here
   const router = useRouter();
 
   // Navigate to project details page
@@ -27,10 +28,11 @@ export default function Dashboard() {
   return (
     <View style={styles.container}>
       {isLoading && <Loader />}
-
       {!isLoading && (
         <SideBar
           userName={userName}
+          selectedButton={selectedButton} // Pass selected button state
+          setSelectedButton={setSelectedButton} // Pass setter function
           onCreateProject={async () => {
             const newProject = {
               name: "New Project",
@@ -48,35 +50,21 @@ export default function Dashboard() {
           }}
           onGetProjects={async () => {
             setIsLoading(true);
-
-            console.log(isLoading);
-
             try {
               const gottenProjects = await searchProjects();
-              setIsLoading(true);
               if (gottenProjects.success) {
                 setProjects(gottenProjects.projects);
-                setIsLoading(false);
               }
             } catch (error) {
               console.error("Error fetching projects:", error);
+            } finally {
               setIsLoading(false);
-            }
-          }}
-          onDeleteProject={async (projectId) => {
-            try {
-              await deleteProject(token, projectId);
-              setProjects((prevProjects) =>
-                prevProjects.filter((project) => project.id !== projectId)
-              );
-            } catch (error) {
-              console.error("Error deleting project:", error);
             }
           }}
         />
       )}
 
-      <View style={!isLoading ? styles.projectList : styles.invisible}>
+      {!isLoading && (
         <ProjectList
           projects={projects}
           onNavigateToProject={handleNavigateToProject}
@@ -128,7 +116,7 @@ export default function Dashboard() {
             }
           }}
         />
-      </View>
+      )}
     </View>
   );
 }
