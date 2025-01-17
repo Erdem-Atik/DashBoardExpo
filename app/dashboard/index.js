@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import SideBar from "./SideBar";
@@ -25,6 +25,10 @@ export default function Dashboard() {
     router.push(`/dashboard/${projectId}`);
   };
 
+  useEffect(() => {
+    console.log("Updated projects:", projects);
+  }, [projects]);
+
   return (
     <View style={styles.container}>
       {isLoading && <Loader />}
@@ -41,9 +45,14 @@ export default function Dashboard() {
               endDate: "2024-12-31",
             };
             try {
+              setIsLoading(true);
               const result = await createProject(token, newProject);
               console.log("Project created:", result);
               setProjects((prevProjects) => [...prevProjects, result]);
+              if (result.success) {
+                setIsLoading(false);
+                handleNavigateToProject(result.projectId);
+              }
             } catch (error) {
               console.error("Error creating project:", error);
             }
@@ -54,6 +63,7 @@ export default function Dashboard() {
               const gottenProjects = await searchProjects();
               if (gottenProjects.success) {
                 setProjects(gottenProjects.projects);
+                console.log(projects);
               }
             } catch (error) {
               console.error("Error fetching projects:", error);
@@ -63,7 +73,6 @@ export default function Dashboard() {
           }}
         />
       )}
-
       {!isLoading && (
         <ProjectList
           projects={projects}

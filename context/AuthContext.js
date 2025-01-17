@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     setToken(newToken);
     setUsername(newUsername);
     Cookies.set("my-key", newToken);
-    router.push("/dashBoard"); // Navigate to the dashboard
+    router.push("/dashboard"); // Navigate to the dashboard
   };
 
   const logout = async () => {

@@ -20,15 +20,19 @@ export default function SideBar({
 
   return (
     <View style={styles.sidebar}>
-      <Image
-        source={require("../../assets/yonetimEd.png")}
-        style={styles.logo}
-      />
+      <TouchableOpacity onPress={() => router.push("/dashboard")}>
+        <Image
+          source={require("../../assets/yonetimEd.png")}
+          style={styles.logo}
+          onPress={() => router.push("/")}
+        />
+      </TouchableOpacity>
+
       <Text style={styles.title}>Welcome, {userName || "Guest"}!</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={onCreateProject}>
-          <Ionicons name="create" size={24} color="black" />
-          <Text>Create Project</Text>
+          <Ionicons name="create" size={18} color="black" />
+          <Text> Create Project</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -37,14 +41,13 @@ export default function SideBar({
             selectedButton === "dashboard" && styles.buttonSelected,
           ]}
           onPress={() => {
-            console.log("Button pressed!");
             setSelectedButton("dashboard");
             onGetProjects();
           }}
         >
           <MaterialIcons
             name="dashboard"
-            size={24}
+            size={18}
             color={selectedButton === "dashboard" ? "#007AFF" : "black"}
           />
           <Text
@@ -53,17 +56,18 @@ export default function SideBar({
               selectedButton === "dashboard" && styles.buttonTextSelected,
             ]}
           >
+            {" "}
             DashBoard
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
-          <MaterialIcons name="report" size={24} color="black" />
+          <MaterialIcons name="report" size={18} color="black" />
           <Text> Reports</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
-          <MaterialIcons name="manage-accounts" size={24} color="black" />
+          <MaterialCommunityIcons name="account" size={18} color="black" />
           <Text> My Profile</Text>
         </TouchableOpacity>
       </View>
@@ -76,7 +80,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "red",
     margin: 0, // Remove any default margin
-    borderWidth: 5,
     maxWidth: "%55",
     alignItems: "center",
   },
